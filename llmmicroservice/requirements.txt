@@ -3,3 +3,5 @@ uvicorn
 langchain
 langchain-google-genai
 pydantic
+chromadb
+pypdf
