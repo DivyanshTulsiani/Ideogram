@@ -31,14 +31,121 @@ async def upload_pdf(file: UploadFile):
     vectorstore = Chroma.from_documents(chunks,embeddings)
 
     return {"status": "PDF indexed", "pages": len(docs)}
+  
+
+class DiagramRequest(BaseModel):
+    prompt: str
+
+
+import re
+import json
 
 @app.post("/generate/diagram")
 async def generate_diagram(req: DiagramRequest):
+    global vectorstore
 
-  global vectorstore
+    context = ""
+    if vectorstore:
+        docs = vectorstore.similarity_search(req.prompt, k=3)
+        context = "\n".join([d.page_content for d in docs])
 
-  context = ""
-  if vectorstore:
-    docs = vectorstore.similarity_search(req.prompt, k=3)
-    context = "\n".join([d.page_content for d in docs])
+    template = """
+    You are a diagram generator.
+    Convert the following request into a flowchart.
+
+    User request: {user_prompt}
+    Context: {context}
+
+    Rules:
+    - Return ONLY valid JSON.
+    - JSON must have:
+        "nodes": [ {{ "id": "string", "label": "string", "type": "input|default|output" }} ],
+        "edges": [ {{ "id": "string", "source": "string", "target": "string" }} ]
+    """
+
+    prompt = ChatPromptTemplate.from_template(template)
+
+    llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
+    chain = prompt | llm
+
+    try:
+        result = await chain.ainvoke({
+            "user_prompt": req.prompt,
+            "context": context
+        })
+
+        raw_text = result.content.strip()
+
+        # Remove ```json ... ``` wrappers if present
+        cleaned = re.sub(r"^```(?:json)?\n|\n```$", "", raw_text.strip())
+
+        try:
+            data = json.loads(cleaned)
+            return {"parsed": data}
+        except Exception as e:
+            return {"raw": raw_text, "error": f"Still invalid JSON: {str(e)}"}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+# @app.post("/generate/diagram")
+# async def generate_diagram(req: DiagramRequest):
+
+#   global vectorstore
+
+#   context = ""
+#   if vectorstore:
+#     docs = vectorstore.similarity_search(req.prompt, k=3)
+#     context = "\n".join([d.page_content for d in docs])
+
+#     response_schemas = [
+#       ResponseSchema(name="nodes",description="List of nodes with id,label,type"),
+#       ResponseSchema(name="edges",description="List of edges with id,source,target")
+#     ]
+
+#     parser = StructuredOutputParser.from_response_schemas(response_schemas)
+#     format_instructions = parser.get_format_instructions()
+
+#     template = """
+#     You are a diagram generator.
+#     Convert the following request into a flowchart.
+
+#     User request: {user_prompt}
+#     Context: {context}
+
+#     {format_instructions}
+
+#     Rules:
+#     - Nodes must have: id (string), label (string), type (input, default, or output).
+#     - Edges must have: id (string), source (node id), target (node id).
+#     - Return only valid JSON.
+#     """
+
+#     prompt = ChatPromptTemplate.from_template(template)
+
+#     llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", temperature=0)
+#     chain = prompt | llm | parser
+
+#     try:
+#         parsed = await chain.ainvoke({
+#             "user_prompt": req.prompt,
+#             "context": context,
+#             "format_instructions": format_instructions
+#         })
+
+#         # also fetch raw for safety/debugging
+#         raw = await (prompt | llm).ainvoke({
+#             "user_prompt": req.prompt,
+#             "context": context,
+#             "format_instructions": format_instructions
+#         })
+
+#         return {
+#             "parsed": parsed,
+#             "raw": raw.content
+#         }
+#     except Exception as e:
+#         return {"error": str(e)}
     
+
+      
