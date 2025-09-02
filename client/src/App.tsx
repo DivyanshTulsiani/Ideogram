@@ -4,62 +4,403 @@ import '@xyflow/react/dist/style.css';
 
 const initialNodes = [
   {
-    id: '1',
-    type: 'input',
-    data: { label: 'User Uploads Image' },
-    position: { x: 250, y: 5 },
-  },
-  {
-    id: '2',
-    type: 'default', // A decision node
-    data: { label: 'Validate File Type (JPEG/PNG)?' },
-    position: { x: 250, y: 125 },
-  },
-  {
-    id: '3',
-    type: 'default',
-    data: { label: 'Process: Computer Vision Model (Object Detection)' },
-    position: { x: 100, y: 250 },
-  },
-  {
-    id: '4',
-    type: 'output',
-    data: { label: 'Error: Invalid File Type' },
-    position: { x: 450, y: 250 },
-  },
-  {
-    id: '5',
-    type: 'output',
-    data: { label: 'Output: Formatted JSON with Object Data' },
-    position: { x: 100, y: 375 },
-  },
+    "id": "1",
+    "type": "input",
+    "data": {
+        "label": "Resume Start"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "2",
+    "type": "default",
+    "data": {
+        "label": "Education"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "3",
+    "type": "default",
+    "data": {
+        "label": "Guru Gobind Singh Indraprastha University (B.Tech IT)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "4",
+    "type": "default",
+    "data": {
+        "label": "Amity International School (Senior Secondary)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "5",
+    "type": "default",
+    "data": {
+        "label": "Technical Skills"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "6",
+    "type": "default",
+    "data": {
+        "label": "Languages: JavaScript, Python, C/C++, HTML/CSS, SQL"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "7",
+    "type": "default",
+    "data": {
+        "label": "Frameworks & Libraries: React.js, Node.js, Express.js, NumPy, Matplotlib, pandas"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "8",
+    "type": "default",
+    "data": {
+        "label": "Developer Tools: Git/GitHub, VS Code, PyCharm, BASH, Postman"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "9",
+    "type": "default",
+    "data": {
+        "label": "Databases: MongoDB"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "10",
+    "type": "default",
+    "data": {
+        "label": "Trainings & Courses"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "11",
+    "type": "default",
+    "data": {
+        "label": "Python for Financial Analysis and Algorithmic Trading (Udemy)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "12",
+    "type": "default",
+    "data": {
+        "label": "Algorithmic Trading A-Z with Python, Machine Learning & AWS (Udemy)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "13",
+    "type": "default",
+    "data": {
+        "label": "Projects"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "14",
+    "type": "default",
+    "data": {
+        "label": "Journizz (MongoDB, Node.js, Express.js, JWT, Gemini API)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "15",
+    "type": "default",
+    "data": {
+        "label": "CodeMagico (JavaScript, HTML/CSS, DOM, UI/UX)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "16",
+    "type": "default",
+    "data": {
+        "label": "Relaxio (JavaScript, OpenWeather API, HTML/CSS, REST API)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "17",
+    "type": "default",
+    "data": {
+        "label": "Net Daddy (Hackathon - MERN, Gemini AI, Twilio, Chrome Extension)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "18",
+    "type": "default",
+    "data": {
+        "label": "Achievements"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "19",
+    "type": "default",
+    "data": {
+        "label": "LeetCode Achievements (100+ problems, Top 6.9%, Rating 1475)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "20",
+    "type": "default",
+    "data": {
+        "label": "Model United Nations (Verbal Mention Award)"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+},
+{
+    "id": "21",
+    "type": "output",
+    "data": {
+        "label": "Resume End"
+    },
+    "position": {
+        "x": 0,
+        "y": 0
+    }
+}
 ];
 const initialEdges = [
-  { 
-    id: 'e1-2', 
-    source: '1', 
-    target: '2', 
-    animated: true 
-  },
-  { 
-    id: 'e2-3', 
-    source: '2', 
-    target: '3', 
-    label: 'Valid', 
-    animated: true 
-  },
-  { 
-    id: 'e2-4', 
-    source: '2', 
-    target: '4', 
-    label: 'Invalid' 
-  },
-  { 
-    id: 'e3-5', 
-    source: '3', 
-    target: '5', 
-    animated: true 
-  },
+  {
+    "id": "e1-2",
+    "source": "1",
+    "target": "2"
+},
+{
+    "id": "e1-5",
+    "source": "1",
+    "target": "5"
+},
+{
+    "id": "e1-10",
+    "source": "1",
+    "target": "10"
+},
+{
+    "id": "e1-13",
+    "source": "1",
+    "target": "13"
+},
+{
+    "id": "e1-18",
+    "source": "1",
+    "target": "18"
+},
+{
+    "id": "e2-3",
+    "source": "2",
+    "target": "3"
+},
+{
+    "id": "e2-4",
+    "source": "2",
+    "target": "4"
+},
+{
+    "id": "e5-6",
+    "source": "5",
+    "target": "6"
+},
+{
+    "id": "e5-7",
+    "source": "5",
+    "target": "7"
+},
+{
+    "id": "e5-8",
+    "source": "5",
+    "target": "8"
+},
+{
+    "id": "e5-9",
+    "source": "5",
+    "target": "9"
+},
+{
+    "id": "e10-11",
+    "source": "10",
+    "target": "11"
+},
+{
+    "id": "e10-12",
+    "source": "10",
+    "target": "12"
+},
+{
+    "id": "e13-14",
+    "source": "13",
+    "target": "14"
+},
+{
+    "id": "e13-15",
+    "source": "13",
+    "target": "15"
+},
+{
+    "id": "e13-16",
+    "source": "13",
+    "target": "16"
+},
+{
+    "id": "e13-17",
+    "source": "13",
+    "target": "17"
+},
+{
+    "id": "e18-19",
+    "source": "18",
+    "target": "19"
+},
+{
+    "id": "e18-20",
+    "source": "18",
+    "target": "20"
+},
+{
+    "id": "e3-21",
+    "source": "3",
+    "target": "21"
+},
+{
+    "id": "e4-21",
+    "source": "4",
+    "target": "21"
+},
+{
+    "id": "e6-21",
+    "source": "6",
+    "target": "21"
+},
+{
+    "id": "e7-21",
+    "source": "7",
+    "target": "21"
+},
+{
+    "id": "e8-21",
+    "source": "8",
+    "target": "21"
+},
+{
+    "id": "e9-21",
+    "source": "9",
+    "target": "21"
+},
+{
+    "id": "e11-21",
+    "source": "11",
+    "target": "21"
+},
+{
+    "id": "e12-21",
+    "source": "12",
+    "target": "21"
+},
+{
+    "id": "e14-21",
+    "source": "14",
+    "target": "21"
+},
+{
+    "id": "e15-21",
+    "source": "15",
+    "target": "21"
+},
+{
+    "id": "e16-21",
+    "source": "16",
+    "target": "21"
+},
+{
+    "id": "e17-21",
+    "source": "17",
+    "target": "21"
+},
+{
+    "id": "e19-21",
+    "source": "19",
+    "target": "21"
+},
+{
+    "id": "e20-21",
+    "source": "20",
+    "target": "21"
+}
 ];
 const styles = {
   background: 'red',
