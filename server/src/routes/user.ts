@@ -5,8 +5,11 @@ import bcrypt from "bcrypt"
 import { UserModel } from "../models/db";
 import { Router } from "express"
 import jwt from "jsonwebtoken"
+import dotenv from "dotenv"
 
 const router = Router();
+dotenv.config()
+const JWT_SECRET = process.env.JWT_SECRET
 
 
 router.post("/signup", async (req, res) => {
@@ -91,9 +94,12 @@ router.post("/signin", async (req, res) => {
             message: "Incorrect password"
           })
         }
+        if (!JWT_SECRET) {
+          throw new Error("JWT_SECRET is not defined in the environment variables");
+        }
         const token = jwt.sign({
           email: email
-        },"trialsecret")
+        },JWT_SECRET)
         res.status(200).json({
           message: "User has succesfully signed in",
           token: token

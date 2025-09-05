@@ -483,7 +483,7 @@ const Flow = () => {
   );
 
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div style={{ width: '60%', height: '60vh' }}>
     <ReactFlow
       nodes={nodes}
       edges={edges}
