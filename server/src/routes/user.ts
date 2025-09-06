@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import * as z from "zod"
 import bcrypt from "bcrypt"
@@ -11,8 +11,10 @@ const router = Router();
 dotenv.config()
 const JWT_SECRET = process.env.JWT_SECRET
 
+//additional types in these libaries can be used to take usage of ts
+//like requestr and response below
 
-router.post("/signup", async (req, res) => {
+router.post("/signup", async (req: Request, res: Response) => {
 
   if (req.body.email && req.body.password && req.body.name) {
     const email = req.body.email;
@@ -71,7 +73,7 @@ router.post("/signup", async (req, res) => {
 //so now we have to sign the user in we will do a db request to check for his credential
 //check if the user exist then check for his password but since it is hashed we must check 
 //it by hashing
-router.post("/signin", async (req, res) => {
+router.post("/signin", async (req: Request, res: Response) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -80,16 +82,16 @@ router.post("/signin", async (req, res) => {
       let userfound = await UserModel.findOne({
         email: email
       })
-      if(!userfound){
+      if (!userfound) {
         res.status(400).json({
           message: "User does not exist"
         })
       }
       //this ? after userfound is additional safety measure in ts it ensures that 
       //userfound is not a null value
-      if(userfound?.password){
-        const passwordmatch = await bcrypt.compare(password,userfound.password)
-        if(!passwordmatch){
+      if (userfound?.password) {
+        const passwordmatch = await bcrypt.compare(password, userfound.password)
+        if (!passwordmatch) {
           res.status(400).json({
             message: "Incorrect password"
           })
@@ -99,14 +101,14 @@ router.post("/signin", async (req, res) => {
         }
         const token = jwt.sign({
           email: email
-        },JWT_SECRET)
+        }, JWT_SECRET)
         res.status(200).json({
           message: "User has succesfully signed in",
           token: token
         })
       }
     }
-    catch(e){
+    catch (e) {
       res.status(500).json({
         message: "Internal server error"
       })
