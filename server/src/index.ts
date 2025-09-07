@@ -4,6 +4,7 @@ import * as z from "zod"
 import bcrypt from "bcrypt"
 import { UserModel } from "./models/db";
 import { router as userRouter } from "./routes/user"
+import { router as contentRouter } from "./routes/generate"
 import cors from "cors"
 const app = express();
 import dotenv from "dotenv"
@@ -17,6 +18,7 @@ const MONGOOSE_URI = process.env.MONGOOSE_URI
 app.use(express.json())
 app.use(cors())
 app.use("/api/v1/users",userRouter)
+app.use("/api/v1/content",contentRouter)
 
 // app.post("/api/v1/signin",(req,res) => {
 

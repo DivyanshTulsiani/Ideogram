@@ -2,9 +2,10 @@ import jwt, { JwtPayload } from "jsonwebtoken"
 import { Request, Response, NextFunction } from "express"
 import dotenv from "dotenv"
 import { UserModel } from "../models/db"
-import { email } from "zod"
+import express from "express"
 
 dotenv.config()
+
 
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -26,7 +27,10 @@ export default async function authmiddleware(req: Request, res: Response, next: 
       if (decoded.email) {
         let userfound = await UserModel.findOne({email: decoded.email})
         if(userfound){
-          req.body.email = decoded.email
+          (req as any).user = { email: decoded.email };
+          // if (!req.body) req.body = {}; 
+          // req.body.email = decoded.email
+          console.log("here we go");
           next();
         }
         else{
@@ -37,6 +41,7 @@ export default async function authmiddleware(req: Request, res: Response, next: 
       }
     }
     catch(e){
+      console.log(e);
       res.status(404).json({
         message: "Some error occured",
         error: e
