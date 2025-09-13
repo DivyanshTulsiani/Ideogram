@@ -1,7 +1,9 @@
 import shutil
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+# from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.prompts import ChatPromptTemplate
 from langchain_community.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -23,7 +25,10 @@ class DiagramRequest(BaseModel):
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyBbhfkyNdxPG-KpnCIPVbtt4-qIBHpFf24"
 
-embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+# embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
 
 @app.post("/upload-pdf/{user_id}")
 async def upload_pdf(user_id: str, file: UploadFile = File(...)):
