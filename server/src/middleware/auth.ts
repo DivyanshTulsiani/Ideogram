@@ -9,10 +9,18 @@ dotenv.config()
 
 const JWT_SECRET = process.env.JWT_SECRET
 
-interface UserReq extends Request{
-  user?: {email: string}
-}
+// //instead of these use global dec
+// interface UserReq extends Request{
+//   user?: {email: string};
+// }
 
+declare global{
+  namespace Express {
+    interface Request{
+      user?: {email: string};
+    }
+  }
+}
 
 //as we know middleware is just a function 
 //an entire express app can be considered basically a chain of middlewares only this funciton additionaly has 
@@ -31,7 +39,7 @@ export default async function authmiddleware(req: Request, res: Response, next: 
       if (decoded.email) {
         let userfound = await UserModel.findOne({email: decoded.email})
         if(userfound){  
-          (req as UserReq).user = { email: decoded.email };
+          req.user = { email: decoded.email };
           // if (!req.body) req.body = {}; 
           // req.body.email = decoded.email
           console.log("here we go");

@@ -24,7 +24,7 @@ const upload = multer({ storage })
 
 router.post("/uploadpdf",authmiddleware,upload.single("file"),async (req: Request,res: Response) =>{
   try{
-    const userId  = (req as any).user.email
+    const userId  = req.user?.email
     console.log(userId)
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
