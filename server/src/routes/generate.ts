@@ -80,7 +80,7 @@ router.post("/uploadpdf",authmiddleware,upload.single("file"),async (req: Reques
 
 router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
   try{
-    const email = (req as any).user.email;
+    const email = req.user?.email;
     const user = await UserModel.findOne({
       email: email
     })
@@ -108,6 +108,9 @@ router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
     }
     const fastapiresponse = await fetch(`http://127.0.0.1:8000/generate/diagram`,{
       method: "POST",
+      headers:{
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify({
         user_id: email,
         prompt: prompt
