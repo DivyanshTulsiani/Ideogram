@@ -1,4 +1,4 @@
-import {model,Schema} from "mongoose";
+import mongoose, {model,Schema} from "mongoose";
 import { date } from "zod";
 
 
@@ -10,11 +10,12 @@ const User = new Schema({
   name:{type: String}
 })
 
+export const UserModel = model('users',User);
+
 const ContentPrompt = new Schema({
   prompt:{type: String},
   date:{type: String},
-  UserId: {type: ObjectId}
+  UserId: {type: ObjectId, ref: 'users', required: true}
 })
 
-export const UserModel = model('users',User);
 export const ContentPromptModel =  model('contentprompt',ContentPrompt);

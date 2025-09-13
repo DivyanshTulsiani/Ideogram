@@ -3,11 +3,16 @@ import multer from "multer"
 import { Blob } from "buffer";
 import { Router } from "express"
 import { Request,Response } from "express";
-import { ContentPromptModel } from "../models/db";
+import { ContentPromptModel,UserModel } from "../models/db";
 import  authmiddleware  from "../middleware/auth"
 import fetch from "node-fetch";
 import FormData from "form-data"
 import fs from "fs"
+
+interface AuthRequestBody {
+  email: string;
+  password: string;
+}
 
 const app = express()
 app.use(express.json())
@@ -74,7 +79,51 @@ router.post("/uploadpdf",authmiddleware,upload.single("file"),async (req: Reques
 
 
 router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
+  try{
+    const email = (req as any).user.email;
+    const user = await UserModel.findOne({
+      email: email
+    })
+    if(!user){
+      res.status(404).json({
+        message: "User not found"
+      })
+    }
+    const userId = user?._id
+    const prompt = req.body.prompt
 
+    try{
+      const currentdate = new Date()
+      const stringdate = currentdate.toDateString()
+      await ContentPromptModel.create({
+        UserId: userId,
+        prompt: prompt,
+        date: stringdate
+      })
+    }
+    catch(e){
+      res.status(400).json({
+        Error: e
+      })
+    }
+    const fastapiresponse = await fetch(`http://127.0.0.1:8000/generate/diagram`,{
+      method: "POST",
+      body: JSON.stringify({
+        user_id: email,
+        prompt: prompt
+      })
+    })
+
+    const resp = await fastapiresponse.json()
+    res.status(200).json({
+      message: "Diagram generated succesfully",
+      Data: resp
+    })
+
+  }
+  catch(e){
+
+  }
 })
 
 export { router }

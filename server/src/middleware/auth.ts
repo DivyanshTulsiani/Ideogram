@@ -26,7 +26,7 @@ export default async function authmiddleware(req: Request, res: Response, next: 
 
       if (decoded.email) {
         let userfound = await UserModel.findOne({email: decoded.email})
-        if(userfound){
+        if(userfound){  
           (req as any).user = { email: decoded.email };
           // if (!req.body) req.body = {}; 
           // req.body.email = decoded.email
@@ -44,7 +44,7 @@ export default async function authmiddleware(req: Request, res: Response, next: 
       console.log(e);
       res.status(404).json({
         message: "Some error occured",
-        error: e
+        error: e 
       })
     }
   }
