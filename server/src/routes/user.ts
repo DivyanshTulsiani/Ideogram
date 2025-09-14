@@ -23,8 +23,12 @@ interface SignupRequestBody {
 
 }
 
+interface GoogleRequestBody{
+    token: string
+}
 
-router.post("/auth/google",async (req: Request,res: Response) =>{
+
+router.post("/auth/google",async (req: Request<{},{},GoogleRequestBody>,res: Response) =>{
   try{
     const { token } = req.body;
 
