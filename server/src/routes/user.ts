@@ -6,16 +6,44 @@ import { UserModel } from "../models/db";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { OAuth2Client } from "google-auth-library";
 
 const router = Router();
 dotenv.config();
 const JWT_SECRET = process.env.JWT_SECRET;
+
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 interface SignupRequestBody {
   email: string;
   password: string;
   name: string;
 }
+
+
+router.post("/auth/google",async (req: Request,res: Response) =>{
+  try{
+    const { token } = req.body;
+
+    const googleClientId = process.env.GOOGLE_CLIENT_ID;
+
+    if(!googleClientId){
+      return res.status(404).json({
+        message: "Google client if is not defined"
+      })
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: googleClientId
+    })
+
+    const payload = ticket.getPayload
+  }
+  catch(e){
+
+  }
+})
 
 router.post("/signup", async (req: Request<{}, {}, SignupRequestBody>, res: Response) => {
   if (req.body.email && req.body.password && req.body.name) {
