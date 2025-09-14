@@ -6,7 +6,7 @@ import { UserModel } from "../models/db";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { OAuth2Client } from "google-auth-library";
+import { JWT, OAuth2Client } from "google-auth-library";
 
 const router = Router();
 dotenv.config();
@@ -16,8 +16,11 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
 
 interface SignupRequestBody {
   email: string;
-  password: string;
-  name: string;
+  password?: string;
+  name?: string;
+  googleId?: string;
+  provider: "local" | "google";
+
 }
 
 
@@ -38,7 +41,51 @@ router.post("/auth/google",async (req: Request,res: Response) =>{
       audience: googleClientId
     })
 
-    const payload = ticket.getPayload
+    const payload = ticket.getPayload();
+
+    if(!payload){
+      return res.status(401).json({
+        message: "Invalid Google token"
+      })
+    }
+
+    const email = payload.email;
+    const name = payload.name;
+    const googleId = payload.sub
+
+    let user = await UserModel.findOne({email: email})
+
+    if(!user){
+      await UserModel.create({
+        email,
+        name,
+        provider: "google",
+        googleId
+      })
+      if(!JWT_SECRET){
+        throw new Error("JWT secret is not defined")
+      }
+      const token = jwt.sign({email: email},JWT_SECRET)
+
+      res.status(201).json({
+        message: "New user created toke assigned",
+        token: token
+      })
+
+    }
+    else{
+      if(!JWT_SECRET){
+        throw new Error("JWT secret is not defined")
+      }
+      const token = jwt.sign({email: email},JWT_SECRET)
+
+      res.status(200).json({
+        message: "User signed in",
+        token: token
+      })
+    }
+
+
   }
   catch(e){
 
@@ -46,13 +93,13 @@ router.post("/auth/google",async (req: Request,res: Response) =>{
 })
 
 router.post("/signup", async (req: Request<{}, {}, SignupRequestBody>, res: Response) => {
-  if (req.body.email && req.body.password && req.body.name) {
+  if (req.body.email && req.body.password && req.body.name && req.body) {
     const email = req.body.email; // Fixed: was req.body
     const password = req.body.password;
     const name = req.body.name;
 
     let letuserfound = await UserModel.findOne({ email: email });
-    if (!letuserfound) {
+    if (!letuserfound) { 
       const requiredBody = z.object({
         email: z.string().min(5).max(100).email({ message: "Not in proper email format" }),
         password: z.string().min(6, { message: "Minimum 6 characters required" }).max(100),
@@ -70,7 +117,9 @@ router.post("/signup", async (req: Request<{}, {}, SignupRequestBody>, res: Resp
           await UserModel.create({
             email: email,
             password: hashedpassword,
-            name: name
+            name: name,
+            provider: "local",
+
           });
           res.status(201).json({
             message: "User created"
