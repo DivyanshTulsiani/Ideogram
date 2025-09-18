@@ -7,6 +7,7 @@ import {
   Panel,
   useNodesState,
   useEdgesState,
+  Controls
 } from '@xyflow/react';
 import dagre from '@dagrejs/dagre';
 
@@ -483,7 +484,7 @@ const Flow = () => {
   );
 
   return (
-    <div style={{ width: '60%', height: '60vh' }}>
+    <div style={{ width: '10%', height: '100vh' }}>
     <ReactFlow
       nodes={nodes}
       edges={edges}
@@ -502,11 +503,12 @@ const Flow = () => {
         </button>
       </Panel>
       <Background />
+      <Controls/>
     </ReactFlow>
     </div>
   );
 };
 
-export default function App() {
+export default function Reactflow() {
   return <Flow />;
 }
