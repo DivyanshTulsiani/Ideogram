@@ -1,4 +1,5 @@
-import { useCallback } from 'react';
+import { useCallback, useState, useContext, useEffect } from 'react';
+import { FlowContext } from '../App';
 import {
   Background,
   ReactFlow,
@@ -7,13 +8,88 @@ import {
   Panel,
   useNodesState,
   useEdgesState,
-  Controls
+  Controls,
+  type Node,
+  type Edge,
+  type Connection
 } from '@xyflow/react';
 import dagre from '@dagrejs/dagre';
+import { useFlowContext } from '../App';
 
 import '@xyflow/react/dist/style.css';
 
-const initialNodes = [
+
+const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+
+const nodeWidth = 172;
+const nodeHeight = 36;
+
+const getLayoutedElements = (nodes: any[], edges: any[], direction = 'TB') => {
+  const isHorizontal = direction === 'LR';
+  dagreGraph.setGraph({ rankdir: direction });
+
+  nodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const newNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    const newNode = {
+      ...node,
+      targetPosition: isHorizontal ? 'left' : 'top',
+      sourcePosition: isHorizontal ? 'right' : 'bottom',
+      // We are shifting the dagre node position (anchor=center center) to the top left
+      // so it matches the React Flow node anchor point (top left).
+      position: {
+        x: nodeWithPosition.x - nodeWidth / 2,
+        y: nodeWithPosition.y - nodeHeight / 2,
+      },
+    };
+
+    return newNode;
+  });
+
+  return { nodes: newNodes, edges };
+};
+
+
+//since we have shifted to context api for state mnagemetn we will have to move
+//this to a new comp since we cant use usestate outside of  a comp so ot is neccesary
+
+// const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+//   initialNodes,
+//   initialEdges,
+// );
+
+const Flow = () => {
+
+  const {initialEdges,initialNodes,SetinitialEdges,SetinitialNodes } = useFlowContext()
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([] as Node[]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([] as Edge[]);
+
+  useEffect(()=>{
+    if(initialNodes.length > 0 || initialEdges.length > 0){
+      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
+        initialNodes,
+        initialEdges,
+      );
+      setNodes(layoutedNodes);
+      setEdges(layoutedEdges);
+
+    }
+  },[initialEdges,initialNodes,setNodes,setEdges])
+
+//   const [initialNodes, SetinitialNodes] = useState<Node[]>([]);
+// const [initialEdges, SetinitialEdges] = useState<Edge[]>([]);
+
+const node = [
   {
     "id": "1",
     "type": "input",
@@ -245,8 +321,9 @@ const initialNodes = [
         "y": 0
     }
 }
-];
-const initialEdges = [
+]
+
+const edge = [
   {
     "id": "e1-2",
     "source": "1",
@@ -414,60 +491,12 @@ const initialEdges = [
 }
 ];
 
-const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-
-const nodeWidth = 172;
-const nodeHeight = 36;
-
-const getLayoutedElements = (nodes: any[], edges: any[], direction = 'TB') => {
-  const isHorizontal = direction === 'LR';
-  dagreGraph.setGraph({ rankdir: direction });
-
-  nodes.forEach((node) => {
-    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
-  });
-
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
-
-  dagre.layout(dagreGraph);
-
-  const newNodes = nodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    const newNode = {
-      ...node,
-      targetPosition: isHorizontal ? 'left' : 'top',
-      sourcePosition: isHorizontal ? 'right' : 'bottom',
-      // We are shifting the dagre node position (anchor=center center) to the top left
-      // so it matches the React Flow node anchor point (top left).
-      position: {
-        x: nodeWithPosition.x - nodeWidth / 2,
-        y: nodeWithPosition.y - nodeHeight / 2,
-      },
-    };
-
-    return newNode;
-  });
-
-  return { nodes: newNodes, edges };
-};
-
-const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-  initialNodes,
-  initialEdges,
-);
-
-const Flow = () => {
-  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
-
   const onConnect = useCallback(
-    (params: any) =>
+    (params: Connection) =>
       setEdges((eds) =>
         addEdge({ ...params, type: ConnectionLineType.SmoothStep, animated: true }, eds),
       ),
-    [],
+    [setEdges],
   );
   const onLayout = useCallback(
     (direction: string | undefined) => {
@@ -502,8 +531,20 @@ const Flow = () => {
           horizontal layout
         </button>
       </Panel>
+      <Panel position='bottom-center'>
+        <button className='w-20 h-5 rounded-xl' onClick={()=>SetinitialNodes(node)}>
+          hi
+        </button>
+        <button className='w-20 h-5 rounded-xl' onClick={()=>SetinitialEdges(edge)}>
+          hi
+        </button>
+
+      </Panel>
       <Controls/>
       <Background />
+
+
+      
     </ReactFlow>
     </div>
   );
