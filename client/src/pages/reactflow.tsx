@@ -1,4 +1,4 @@
-import { useCallback, useState, useContext, useEffect } from 'react';
+import { useCallback, useState, useContext, useEffect, type ChangeEvent } from 'react';
 import { FlowContext } from '../App';
 // import 'tailwind.css';
 // import '.../tailwind.config.ts'
@@ -558,10 +558,18 @@ const edge = [
 };
 
 const Input = () => {
+
+  const [InputVal,SetInputval] = useState<string>("");
+
+  const PromptChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>{
+    SetInputval(e.target.value)
+  }
+
+
   return(
     <>
     <div className='absolute z-10 bg-red-300 top-130 left-120'>
-      <input/>
+      <input onChange={PromptChangeHandler} value={InputVal}/>
     </div>
     </>
   )
