@@ -7,6 +7,7 @@ import {
     type Node,
     type Edge
 } from '@xyflow/react';
+// import '.../tailwind.config.ts'
 
 interface FlowProviderProps {
     children: React.ReactNode

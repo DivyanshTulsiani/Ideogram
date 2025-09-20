@@ -1,5 +1,7 @@
 import { useCallback, useState, useContext, useEffect } from 'react';
 import { FlowContext } from '../App';
+// import 'tailwind.css';
+// import '.../tailwind.config.ts'
 import {
   Background,
   ReactFlow,
@@ -532,10 +534,10 @@ const edge = [
         </button>
       </Panel>
       <Panel position='bottom-center'>
-        <button className='w-20 h-5 rounded-xl' onClick={()=>SetinitialNodes(node)}>
+        <button  onClick={()=>SetinitialNodes(node)}>
           hi
         </button>
-        <button className='w-20 h-5 rounded-xl' onClick={()=>SetinitialEdges(edge)}>
+        <button className='w-20 h-5 rounded-xl bg-blue-500' onClick={()=>SetinitialEdges(edge)}>
           hi
         </button>
 
