@@ -540,6 +540,11 @@ const edge = [
         <button className='w-20 h-5 rounded-xl bg-blue-500' onClick={()=>SetinitialEdges(edge)}>
           hi
         </button>
+        {/* <div>
+          <h2>this is inp</h2>
+          <input className='bg-red-300'/>
+        </div> */}
+        
 
       </Panel>
       <Controls/>
@@ -552,8 +557,30 @@ const edge = [
   );
 };
 
+const Input = () => {
+  return(
+    <>
+    <div className='absolute z-10 bg-red-300 top-130 left-120'>
+      <input/>
+    </div>
+    </>
+  )
+}
+
+const Parent = () =>{
+
+  return(
+    <> 
+    <div className='relative w-full h-screen'>
+      <Flow/>
+      <Input/>
+    </div>
+    </>
+  )
+}
+
 export default function Reactflow() {
-  return <Flow />;
+  return <Parent/>;
 }
 
 
