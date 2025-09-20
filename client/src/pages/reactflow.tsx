@@ -559,17 +559,38 @@ const edge = [
 
 const Input = () => {
 
+  const {initialNodes,initialEdges,SetinitialNodes,SetinitialEdges} = useFlowContext()
+
   const [InputVal,SetInputval] = useState<string>("");
 
   const PromptChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>{
     SetInputval(e.target.value)
   }
 
+  const GenerateDiagram = async () => {
+    try{
+      const data = await fetch(`http://localhost:3000/api/v1/content/generate`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": ""
+        },
+        body: JSON.stringify({
+          prompt: "generate a flowchart according to the resume provided with all neccesary things"
+        })
+    })
+    }
+    catch(e){
+
+    }
+  }
+
 
   return(
     <>
-    <div className='absolute z-10 bg-red-300 top-130 left-120'>
+    <div className='absolute z-10 bg-red-300 top-130 left-120 flex'>
       <input onChange={PromptChangeHandler} value={InputVal}/>
+      <button className='bg-blue-300' onClick={GenerateDiagram}>Generate</button>
     </div>
     </>
   )
