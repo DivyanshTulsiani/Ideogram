@@ -93,404 +93,420 @@ const Flow = () => {
 
 const node = [
   {
-    "id": "1",
-    "type": "input",
-    "data": {
-        "label": "Resume Start"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "2",
-    "type": "default",
-    "data": {
-        "label": "Education"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "3",
-    "type": "default",
-    "data": {
-        "label": "Guru Gobind Singh Indraprastha University (B.Tech IT)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "4",
-    "type": "default",
-    "data": {
-        "label": "Amity International School (Senior Secondary)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "5",
-    "type": "default",
-    "data": {
-        "label": "Technical Skills"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "6",
-    "type": "default",
-    "data": {
-        "label": "Languages: JavaScript, Python, C/C++, HTML/CSS, SQL"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "7",
-    "type": "default",
-    "data": {
-        "label": "Frameworks & Libraries: React.js, Node.js, Express.js, NumPy, Matplotlib, pandas"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "8",
-    "type": "default",
-    "data": {
-        "label": "Developer Tools: Git/GitHub, VS Code, PyCharm, BASH, Postman"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "9",
-    "type": "default",
-    "data": {
-        "label": "Databases: MongoDB"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "10",
-    "type": "default",
-    "data": {
-        "label": "Trainings & Courses"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "11",
-    "type": "default",
-    "data": {
-        "label": "Python for Financial Analysis and Algorithmic Trading (Udemy)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "12",
-    "type": "default",
-    "data": {
-        "label": "Algorithmic Trading A-Z with Python, Machine Learning & AWS (Udemy)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "13",
-    "type": "default",
-    "data": {
-        "label": "Projects"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "14",
-    "type": "default",
-    "data": {
-        "label": "Journizz (MongoDB, Node.js, Express.js, JWT, Gemini API)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "15",
-    "type": "default",
-    "data": {
-        "label": "CodeMagico (JavaScript, HTML/CSS, DOM, UI/UX)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "16",
-    "type": "default",
-    "data": {
-        "label": "Relaxio (JavaScript, OpenWeather API, HTML/CSS, REST API)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "17",
-    "type": "default",
-    "data": {
-        "label": "Net Daddy (Hackathon - MERN, Gemini AI, Twilio, Chrome Extension)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "18",
-    "type": "default",
-    "data": {
-        "label": "Achievements"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "19",
-    "type": "default",
-    "data": {
-        "label": "LeetCode Achievements (100+ problems, Top 6.9%, Rating 1475)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "20",
-    "type": "default",
-    "data": {
-        "label": "Model United Nations (Verbal Mention Award)"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-},
-{
-    "id": "21",
-    "type": "output",
-    "data": {
-        "label": "Resume End"
-    },
-    "position": {
-        "x": 0,
-        "y": 0
-    }
-}
+      "id": "n_start",
+      "type": "input",
+      "data": {
+          "label": "Divyansh Tulsiani - Resume Overview"
+      },
+      "position": {
+          "x": 0,
+          "y": 0
+      }
+  },
+  {
+      "id": "n_education",
+      "type": "default",
+      "data": {
+          "label": "Education"
+      },
+      "position": {
+          "x": -750,
+          "y": 150
+      }
+  },
+  {
+      "id": "n_ggsipu",
+      "type": "default",
+      "data": {
+          "label": "GGSIPU - B.Tech IT (2023-2027, CGPA: 9.2)"
+      },
+      "position": {
+          "x": -850,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_amity",
+      "type": "default",
+      "data": {
+          "label": "Amity International School (2021-2023, Sr. Secondary)"
+      },
+      "position": {
+          "x": -650,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_skills",
+      "type": "default",
+      "data": {
+          "label": "Technical Skills"
+      },
+      "position": {
+          "x": -450,
+          "y": 150
+      }
+  },
+  {
+      "id": "n_languages",
+      "type": "default",
+      "data": {
+          "label": "Languages: JS, Python, C/C++, HTML/CSS, SQL"
+      },
+      "position": {
+          "x": -550,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_frameworks",
+      "type": "default",
+      "data": {
+          "label": "Frameworks & Libraries: React, Node, Express, NumPy, Matplotlib, Pandas"
+      },
+      "position": {
+          "x": -400,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_dev_tools",
+      "type": "default",
+      "data": {
+          "label": "Developer Tools: Git/GitHub, VS Code, PyCharm, BASH, Postman"
+      },
+      "position": {
+          "x": -250,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_databases",
+      "type": "default",
+      "data": {
+          "label": "Databases: MongoDB"
+      },
+      "position": {
+          "x": -100,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_trainings",
+      "type": "default",
+      "data": {
+          "label": "Trainings & Courses"
+      },
+      "position": {
+          "x": -150,
+          "y": 150
+      }
+  },
+  {
+      "id": "n_python_fa",
+      "type": "default",
+      "data": {
+          "label": "Udemy: Python for Financial Analysis & Algo Trading"
+      },
+      "position": {
+          "x": -225,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_algo_trading",
+      "type": "default",
+      "data": {
+          "label": "Udemy: Algorithmic Trading A-Z (Python, ML, AWS)"
+      },
+      "position": {
+          "x": -75,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_projects",
+      "type": "default",
+      "data": {
+          "label": "Projects"
+      },
+      "position": {
+          "x": 150,
+          "y": 150
+      }
+  },
+  {
+      "id": "n_journizz",
+      "type": "default",
+      "data": {
+          "label": "Journizz: AI Journal (MongoDB, Node, Gemini API, Bcrypt, Zod)"
+      },
+      "position": {
+          "x": 50,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_codemagico",
+      "type": "default",
+      "data": {
+          "label": "CodeMagico: HTML/CSS/JS Code Editor (Modern UI)"
+      },
+      "position": {
+          "x": 200,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_relaxio",
+      "type": "default",
+      "data": {
+          "label": "Relaxio: Motivational Quotes (JS, OpenWeather API)"
+      },
+      "position": {
+          "x": 350,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_hackathon",
+      "type": "default",
+      "data": {
+          "label": "Hackathon Projects"
+      },
+      "position": {
+          "x": 450,
+          "y": 150
+      }
+  },
+  {
+      "id": "n_netdaddy",
+      "type": "default",
+      "data": {
+          "label": "Net Daddy: Child Safety Chrome Ext. (MERN, Gemini AI, Twilio)"
+      },
+      "position": {
+          "x": 450,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_achievements",
+      "type": "default",
+      "data": {
+          "label": "Achievements"
+      },
+      "position": {
+          "x": 750,
+          "y": 150
+      }
+  },
+  {
+      "id": "n_leetcode",
+      "type": "default",
+      "data": {
+          "label": "LeetCode: 100+ problems, Top 6.9%, Rating 1475"
+      },
+      "position": {
+          "x": 650,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_mun",
+      "type": "default",
+      "data": {
+          "label": "Model United Nations: Verbal Mention Award"
+      },
+      "position": {
+          "x": 850,
+          "y": 300
+      }
+  },
+  {
+      "id": "n_end",
+      "type": "output",
+      "data": {
+          "label": "Resume Overview Complete"
+      },
+      "position": {
+          "x": 0,
+          "y": 450
+      }
+  }
 ]
 
 const edge = [
   {
-    "id": "e1-2",
-    "source": "1",
-    "target": "2"
-},
-{
-    "id": "e1-5",
-    "source": "1",
-    "target": "5"
-},
-{
-    "id": "e1-10",
-    "source": "1",
-    "target": "10"
-},
-{
-    "id": "e1-13",
-    "source": "1",
-    "target": "13"
-},
-{
-    "id": "e1-18",
-    "source": "1",
-    "target": "18"
-},
-{
-    "id": "e2-3",
-    "source": "2",
-    "target": "3"
-},
-{
-    "id": "e2-4",
-    "source": "2",
-    "target": "4"
-},
-{
-    "id": "e5-6",
-    "source": "5",
-    "target": "6"
-},
-{
-    "id": "e5-7",
-    "source": "5",
-    "target": "7"
-},
-{
-    "id": "e5-8",
-    "source": "5",
-    "target": "8"
-},
-{
-    "id": "e5-9",
-    "source": "5",
-    "target": "9"
-},
-{
-    "id": "e10-11",
-    "source": "10",
-    "target": "11"
-},
-{
-    "id": "e10-12",
-    "source": "10",
-    "target": "12"
-},
-{
-    "id": "e13-14",
-    "source": "13",
-    "target": "14"
-},
-{
-    "id": "e13-15",
-    "source": "13",
-    "target": "15"
-},
-{
-    "id": "e13-16",
-    "source": "13",
-    "target": "16"
-},
-{
-    "id": "e13-17",
-    "source": "13",
-    "target": "17"
-},
-{
-    "id": "e18-19",
-    "source": "18",
-    "target": "19"
-},
-{
-    "id": "e18-20",
-    "source": "18",
-    "target": "20"
-},
-{
-    "id": "e3-21",
-    "source": "3",
-    "target": "21"
-},
-{
-    "id": "e4-21",
-    "source": "4",
-    "target": "21"
-},
-{
-    "id": "e6-21",
-    "source": "6",
-    "target": "21"
-},
-{
-    "id": "e7-21",
-    "source": "7",
-    "target": "21"
-},
-{
-    "id": "e8-21",
-    "source": "8",
-    "target": "21"
-},
-{
-    "id": "e9-21",
-    "source": "9",
-    "target": "21"
-},
-{
-    "id": "e11-21",
-    "source": "11",
-    "target": "21"
-},
-{
-    "id": "e12-21",
-    "source": "12",
-    "target": "21"
-},
-{
-    "id": "e14-21",
-    "source": "14",
-    "target": "21"
-},
-{
-    "id": "e15-21",
-    "source": "15",
-    "target": "21"
-},
-{
-    "id": "e16-21",
-    "source": "16",
-    "target": "21"
-},
-{
-    "id": "e17-21",
-    "source": "17",
-    "target": "21"
-},
-{
-    "id": "e19-21",
-    "source": "19",
-    "target": "21"
-},
-{
-    "id": "e20-21",
-    "source": "20",
-    "target": "21"
-}
+      "id": "e_start_edu",
+      "source": "n_start",
+      "target": "n_education"
+  },
+  {
+      "id": "e_start_skills",
+      "source": "n_start",
+      "target": "n_skills"
+  },
+  {
+      "id": "e_start_trainings",
+      "source": "n_start",
+      "target": "n_trainings"
+  },
+  {
+      "id": "e_start_projects",
+      "source": "n_start",
+      "target": "n_projects"
+  },
+  {
+      "id": "e_start_hackathon",
+      "source": "n_start",
+      "target": "n_hackathon"
+  },
+  {
+      "id": "e_start_achievements",
+      "source": "n_start",
+      "target": "n_achievements"
+  },
+  {
+      "id": "e_edu_ggsipu",
+      "source": "n_education",
+      "target": "n_ggsipu"
+  },
+  {
+      "id": "e_edu_amity",
+      "source": "n_education",
+      "target": "n_amity"
+  },
+  {
+      "id": "e_skills_lang",
+      "source": "n_skills",
+      "target": "n_languages"
+  },
+  {
+      "id": "e_skills_frameworks",
+      "source": "n_skills",
+      "target": "n_frameworks"
+  },
+  {
+      "id": "e_skills_dev_tools",
+      "source": "n_skills",
+      "target": "n_dev_tools"
+  },
+  {
+      "id": "e_skills_databases",
+      "source": "n_skills",
+      "target": "n_databases"
+  },
+  {
+      "id": "e_trainings_pythonfa",
+      "source": "n_trainings",
+      "target": "n_python_fa"
+  },
+  {
+      "id": "e_trainings_algotrading",
+      "source": "n_trainings",
+      "target": "n_algo_trading"
+  },
+  {
+      "id": "e_projects_journizz",
+      "source": "n_projects",
+      "target": "n_journizz"
+  },
+  {
+      "id": "e_projects_codemagico",
+      "source": "n_projects",
+      "target": "n_codemagico"
+  },
+  {
+      "id": "e_projects_relaxio",
+      "source": "n_projects",
+      "target": "n_relaxio"
+  },
+  {
+      "id": "e_hackathon_netdaddy",
+      "source": "n_hackathon",
+      "target": "n_netdaddy"
+  },
+  {
+      "id": "e_achievements_leetcode",
+      "source": "n_achievements",
+      "target": "n_leetcode"
+  },
+  {
+      "id": "e_achievements_mun",
+      "source": "n_achievements",
+      "target": "n_mun"
+  },
+  {
+      "id": "e_ggsipu_end",
+      "source": "n_ggsipu",
+      "target": "n_end"
+  },
+  {
+      "id": "e_amity_end",
+      "source": "n_amity",
+      "target": "n_end"
+  },
+  {
+      "id": "e_languages_end",
+      "source": "n_languages",
+      "target": "n_end"
+  },
+  {
+      "id": "e_frameworks_end",
+      "source": "n_frameworks",
+      "target": "n_end"
+  },
+  {
+      "id": "e_dev_tools_end",
+      "source": "n_dev_tools",
+      "target": "n_end"
+  },
+  {
+      "id": "e_databases_end",
+      "source": "n_databases",
+      "target": "n_end"
+  },
+  {
+      "id": "e_pythonfa_end",
+      "source": "n_python_fa",
+      "target": "n_end"
+  },
+  {
+      "id": "e_algotrading_end",
+      "source": "n_algo_trading",
+      "target": "n_end"
+  },
+  {
+      "id": "e_journizz_end",
+      "source": "n_journizz",
+      "target": "n_end"
+  },
+  {
+      "id": "e_codemagico_end",
+      "source": "n_codemagico",
+      "target": "n_end"
+  },
+  {
+      "id": "e_relaxio_end",
+      "source": "n_relaxio",
+      "target": "n_end"
+  },
+  {
+      "id": "e_netdaddy_end",
+      "source": "n_netdaddy",
+      "target": "n_end"
+  },
+  {
+      "id": "e_leetcode_end",
+      "source": "n_leetcode",
+      "target": "n_end"
+  },
+  {
+      "id": "e_mun_end",
+      "source": "n_mun",
+      "target": "n_end"
+  }
 ];
 
   const onConnect = useCallback(
@@ -563,22 +579,33 @@ const Input = () => {
 
   const [InputVal,SetInputval] = useState<string>("");
 
+  //this change handler basically connects to the input box when it changes i change the Inputval state variable
+  //for further sending it as a prompt 
   const PromptChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>{
     SetInputval(e.target.value)
   }
 
   const GenerateDiagram = async () => {
     try{
-      const data = await fetch(`http://localhost:3000/api/v1/content/generate`,{
+      const response = await fetch(`http://localhost:3000/api/v1/content/generate`,{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "authorization": ""
+          "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpdjk5QGdtYWlsLmNvbSIsImlhdCI6MTc1OTc2MTMzNX0.4SxVLt3XsKH5o-DSPQTtJjCKnKo1DekfG5wcwnzcu7c"
         },
         body: JSON.stringify({
           prompt: "generate a flowchart according to the resume provided with all neccesary things"
         })
     })
+
+    if(response.ok){
+        const data = await response.json()
+        const reqdata = data.Data.parsed
+        const reqnode = reqdata.nodes
+        const reqedges = reqdata.edges
+        SetinitialEdges(reqedges)
+        SetinitialNodes(reqnode)
+    }
     }
     catch(e){
 
