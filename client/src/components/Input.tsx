@@ -1,12 +1,15 @@
 import { useCallback, useState, useContext, useEffect, type ChangeEvent } from 'react';
 import { useFlowContext } from '../App';
 
+type UploadStatus = 'idle' | 'uploading' | 'success' | 'error'
+
 const Input = () => {
 
   const {initialNodes,initialEdges,SetinitialNodes,SetinitialEdges} = useFlowContext()
 
   const [InputVal,SetInputval] = useState<string>("");
   const [InputFile,SetInputFile] = useState<File | null>(null);
+  const [Status,SetStatus] = useState<UploadStatus>("idle")
 
   //this change handler basically connects to the input box when it changes i change the Inputval state variable
   //for further sending it as a prompt 
@@ -21,6 +24,18 @@ const Input = () => {
     }
   }
 
+  const UploadFile = async () =>{
+      if(InputFile && Status != 'uploading'){
+        try{
+
+        }
+        catch(e){
+
+        }
+      }
+  }
+
+
   const GenerateDiagram = async () => {
     try{
       const response = await fetch(`http://localhost:3000/api/v1/content/generate`,{
@@ -33,7 +48,6 @@ const Input = () => {
           prompt: InputVal
         })
     })
-
     if(response.ok){
         const data = await response.json()
         if(data && data.Data && data.Data.parsed){
@@ -62,7 +76,11 @@ const Input = () => {
           <p>File: {InputFile.name}</p>
         </div>
       )}
-      <button>Upload</button>
+      {InputFile && Status !== 'uploading' && (
+        <div>
+          <button onClick={UploadFile}>Upload</button>
+        </div>
+      )}
 
     </div>
     </>
