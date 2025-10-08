@@ -26,12 +26,32 @@ const Input = () => {
 
   const UploadFile = async () =>{
       if(InputFile && Status != 'uploading'){
+        SetStatus('uploading')
+        const formdata = new FormData()
+        formdata.append('file', InputFile)
         try{
-
+          const response = await fetch(`http://localhost:3000/api/v1/content/uploadpdf`,{
+            method: "POST",
+            headers: {
+              "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpdjk5QGdtYWlsLmNvbSIsImlhdCI6MTc1OTc2MTMzNX0.4SxVLt3XsKH5o-DSPQTtJjCKnKo1DekfG5wcwnzcu7c"
+            },
+            body: formdata
+          })
+          if(response.ok){
+            const data = await response.json()
+            if(data && data.message){
+              SetStatus("success")
+              console.log(data.message)
+            }
+          }
+          else{
+            SetStatus("error")
+          }
         }
         catch(e){
 
         }
+        
       }
   }
 
