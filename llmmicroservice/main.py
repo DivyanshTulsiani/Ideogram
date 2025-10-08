@@ -8,6 +8,8 @@ from langchain.prompts import ChatPromptTemplate
 from langchain_community.vectorstores import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.document_loaders import PyPDFLoader
+import chromadb
+from chromadb.utils import embedding_functions
 from io import BytesIO
 import tempfile
 import re, json
@@ -16,8 +18,20 @@ from langchain_community.vectorstores import FAISS
 # import faiss
 app = FastAPI()
 
-# ephemeral store per user
-user_stores = {}
+# # ephemeral store per user
+# user_stores = {}
+
+# A global dictionary to map user IDs to collection names
+user_collections = {}
+
+# Initialize the persistent Chroma client once at startup
+# All user data will be stored in the 'vectorstores' directory
+persistent_client = chromadb.PersistentClient(path="./vectorstores")
+
+# You can reuse the HuggingFaceEmbeddings model for consistency
+embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)
 
 class DiagramRequest(BaseModel):
     user_id: str
@@ -25,11 +39,11 @@ class DiagramRequest(BaseModel):
 
 os.environ["GOOGLE_API_KEY"] = "AIzaSyBbhfkyNdxPG-KpnCIPVbtt4-qIBHpFf24"
 
-# embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+# # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+# embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-
+#shift to chromadb client
 @app.post("/upload-pdf/{user_id}")
 async def upload_pdf(user_id: str, file: UploadFile = File(...)):
     # Save uploaded PDF to a temporary file
@@ -55,7 +69,7 @@ async def upload_pdf(user_id: str, file: UploadFile = File(...)):
     # Create user-specific vector DB
     vectorstore_path = f"vectorstores/{user_id}"
     db = Chroma.from_documents(docs, embeddings, persist_directory=vectorstore_path)
-    db.persist()
+    # db.persist()
 
     # vectorstore = FAISS.from_documents(docs, embeddings)
     # print("Vectorstore built for user:", user_id, "with", len(docs), "chunks")
@@ -65,8 +79,8 @@ async def upload_pdf(user_id: str, file: UploadFile = File(...)):
     print(f"Similarity search for query: '{query}'")
     for i, r in enumerate(results):
       print(f"Result {i}:", r.page_content[:300]) 
-
-    user_stores[user_id] = db
+# weaviate
+    user_stores[user_id] = vectorstore_path
 
 
 
@@ -74,16 +88,18 @@ async def upload_pdf(user_id: str, file: UploadFile = File(...)):
 
 @app.post("/generate/diagram")
 async def generate_diagram(req: DiagramRequest):
-    vectorstore = user_stores.get(req.user_id, None)
+    vectorstore_path = user_stores.get(req.user_id, None)
 
     # PDF is only extra context
     context = ""
-    if vectorstore:
+    if vectorstore_path and os.path.exists(vectorstore_path):
+        # Create a fresh ChromaDB connection each time
+        vectorstore = Chroma(persist_directory=vectorstore_path, embedding_function=embeddings)
         docs = vectorstore.similarity_search(req.prompt, k=3)
         context = "\n".join([d.page_content for d in docs])
 
     template = """
-You are a diagram generator.
+  You are a diagram generator.
 Your task is to create flowcharts, system designs, or process diagrams based on the user request. 
 Use the extra context if provided.
 
