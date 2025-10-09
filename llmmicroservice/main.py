@@ -47,6 +47,17 @@ os.environ["GOOGLE_API_KEY"] = "AIzaSyBbhfkyNdxPG-KpnCIPVbtt4-qIBHpFf24"
 @app.post("/upload-pdf/{user_id}")
 async def upload_pdf(user_id: str, file: UploadFile = File(...)):
     # Save uploaded PDF to a temporary file
+    sanitized_user_id = re.sub(r'[^a-zA-Z0-9._-]', '_', user_id)
+    collection_name = f"user-{sanitized_user_id}-docs"
+    
+    # Check if the collection already exists and delete it if it does
+    try:
+        persistent_client.delete_collection(collection_name)
+    except Exception as e:
+        # This will raise an exception if the collection doesn't exist,
+        # which we can safely ignore.
+        print(f"Collection '{collection_name}' not found, creating a new one.")
+        
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
         tmp.write(await file.read())
         tmp_path = tmp.name
@@ -60,43 +71,68 @@ async def upload_pdf(user_id: str, file: UploadFile = File(...)):
     # Split into chunks
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     docs = text_splitter.split_documents(documents)
+    
+    #new way we are creating a chromadb client instead of storing it directly in disk
+     # The `get_or_create_collection` method is crucial.
+    # It gets the collection if it exists or creates a new one,
+    # ensuring no overwrites or file-locking conflicts.
+    collection = persistent_client.get_or_create_collection(
+        name=collection_name, embedding_function=embeddings
+    )
+    # #this deletes this users old items
+    # collection.delete(where={})
 
-    #ye check krene ke liye tha ki docs mai chunks kese jaa rhe the
-    # print("Chunks created:", len(docs))
-    # for i, doc in enumerate(docs[:3]):
-    #   print(f"Chunk {i}:", doc.page_content[:300])
-
-    # Create user-specific vector DB
-    vectorstore_path = f"vectorstores/{user_id}"
-    db = Chroma.from_documents(docs, embeddings, persist_directory=vectorstore_path)
-    # db.persist()
-
+        # 5. Add documents to the collection
+    # The native `add` method takes content, metadata, and unique IDs
+    collection.add(
+        documents=[doc.page_content for doc in docs],
+        metadatas=[doc.metadata for doc in docs],
+        ids=[f"id-{sanitized_user_id}-{i}" for i in range(len(docs))],
+    )
     # vectorstore = FAISS.from_documents(docs, embeddings)
     # print("Vectorstore built for user:", user_id, "with", len(docs), "chunks")
 
-    query = "leetcode"  # replace with something from your PDF
-    results = db.similarity_search(query, k=2)  # top 2 similar chunks
-    print(f"Similarity search for query: '{query}'")
-    for i, r in enumerate(results):
-      print(f"Result {i}:", r.page_content[:300]) 
-# weaviate
-    user_stores[user_id] = vectorstore_path
+#     query = "leetcode"  # replace with something from your PDF
+#     results = db.similarity_search(query, k=2)  # top 2 similar chunks
+#     print(f"Similarity search for query: '{query}'")
+#     for i, r in enumerate(results):
+#       print(f"Result {i}:", r.page_content[:300]) 
+# # weaviate
+#     user_stores[user_id] = vectorstore_path
 
-
-
+    user_collections[user_id] = collection_name
     return {"status": "PDF uploaded and processed", "user_id": user_id}
 
 @app.post("/generate/diagram")
 async def generate_diagram(req: DiagramRequest):
-    vectorstore_path = user_stores.get(req.user_id, None)
-
+    # vectorstore_path = user_stores.get(req.user_id, None)
+    
+    collection_name = user_collections.get(req.user_id, None)
     # PDF is only extra context
     context = ""
-    if vectorstore_path and os.path.exists(vectorstore_path):
-        # Create a fresh ChromaDB connection each time
-        vectorstore = Chroma(persist_directory=vectorstore_path, embedding_function=embeddings)
-        docs = vectorstore.similarity_search(req.prompt, k=3)
-        context = "\n".join([d.page_content for d in docs])
+    
+    if collection_name:
+        try:
+            # 1. Get the user's collection from the persistent client
+            collection = persistent_client.get_collection(
+                name=collection_name, embedding_function=embeddings
+            )
+            
+            # 2. Query the collection using the user's prompt
+            results = collection.query(
+                query_texts=[req.prompt],
+                n_results=3
+            )
+            # The result is a dictionary, extract the documents
+            context = "\n".join(results['documents'][0])
+        except Exception as e:
+            print(f"Error retrieving context for user {req.user_id}: {e}")
+
+    # if vectorstore_path and os.path.exists(vectorstore_path):
+    #     # Create a fresh ChromaDB connection each time
+    #     vectorstore = Chroma(persist_directory=vectorstore_path, embedding_function=embeddings)
+    #     docs = vectorstore.similarity_search(req.prompt, k=3)
+    #     context = "\n".join([d.page_content for d in docs])
 
     template = """
   You are a diagram generator.
@@ -152,10 +188,11 @@ Additional guidelines:
 
         try:
             data = json.loads(cleaned)
-            vectorstore_path = f"vectorstores/{req.user_id}"
-            if os.path.exists(vectorstore_path):
-                shutil.rmtree(vectorstore_path)
-            user_stores.pop(req.user_id, None)
+            # if collection_name:
+            #   # Delete the collection, which safely releases the lock
+            #   persistent_client.delete_collection(collection_name)
+            #   # Remove the mapping from the in-memory store
+            #   user_collections.pop(req.user_id, None)
             return {
                 "parsed": data,
                 "retrieved_context": context
@@ -166,7 +203,28 @@ Additional guidelines:
 
     except Exception as e:
         return {"error": str(e)}
+      
+      
 
+
+
+# @app.delete("/delete-pdf-context/{user_id}")
+# async def delete_pdf_context(user_id: str):
+#     collection_name = user_collections.get(user_id)
+#     sanitized_user_id = re.sub(r'[^a-zA-Z0-9._-]', '_', user_id)
+#     collection_dir_name = f"user-{sanitized_user_id}-docs"
+#     collection_path = os.path.join("./vectorstores", collection_dir_name)
+#     if collection_name:
+#         try:
+#             persistent_client.delete_collection(collection_name)
+#             user_collections.pop(user_id, None)
+#             if os.path.exists(collection_path):
+#               shutil.rmtree(collection_path)
+#               print(f"Successfully deleted physical directory: {collection_path}")
+#             return {"status": "PDF context deleted successfully", "user_id": user_id}
+#         except Exception as e:
+#             return {"status": "Error", "message": f"Could not delete collection: {e}"}
+#     return {"status": "Not Found", "message": f"No active PDF context found for user_id: {user_id}"}
 
 
 
