@@ -1,5 +1,6 @@
-import { useCallback, useState, useContext, useEffect, type ChangeEvent } from 'react';
-import { FlowContext } from '../App';
+import { useCallback, useEffect } from 'react';
+import  FileUploader  from '../components/FileUploader'
+import Input from '../components/Input';
 // import 'tailwind.css';
 // import '.../tailwind.config.ts'
 import {
@@ -573,56 +574,6 @@ const edge = [
   );
 };
 
-const Input = () => {
-
-  const {initialNodes,initialEdges,SetinitialNodes,SetinitialEdges} = useFlowContext()
-
-  const [InputVal,SetInputval] = useState<string>("");
-
-  //this change handler basically connects to the input box when it changes i change the Inputval state variable
-  //for further sending it as a prompt 
-  const PromptChangeHandler = (e: ChangeEvent<HTMLInputElement>) =>{
-    SetInputval(e.target.value)
-  }
-
-  const GenerateDiagram = async () => {
-    try{
-      const response = await fetch(`http://localhost:3000/api/v1/content/generate`,{
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpdjk5QGdtYWlsLmNvbSIsImlhdCI6MTc1OTc2MTMzNX0.4SxVLt3XsKH5o-DSPQTtJjCKnKo1DekfG5wcwnzcu7c"
-        },
-        body: JSON.stringify({
-          prompt: "generate a flowchart according to the resume provided with all neccesary things"
-        })
-    })
-
-    if(response.ok){
-        const data = await response.json()
-        const reqdata = data.Data.parsed
-        const reqnode = reqdata.nodes
-        const reqedges = reqdata.edges
-        SetinitialEdges(reqedges)
-        SetinitialNodes(reqnode)
-    }
-    }
-    catch(e){
-
-    }
-  }
-
-
-  return(
-    <>
-    <div className='absolute z-10 bg-red-300 top-130 left-120 flex'>
-      <input onChange={PromptChangeHandler} value={InputVal}/>
-      <button className='bg-blue-300' onClick={GenerateDiagram}>Generate</button>
-    </div>
-    </>
-  )
-}
-
 const Parent = () =>{
 
   return(
@@ -630,6 +581,7 @@ const Parent = () =>{
     <div className='relative w-full h-screen'>
       <Flow/>
       <Input/>
+      <FileUploader/>
     </div>
     </>
   )
