@@ -1,6 +1,26 @@
 @import "tailwindcss";
 
+/* Make wrapper background transparent (so your custom node's bg shows) */
+.react-flow__node-default,
+.react-flow__node-input,
+.react-flow__node-output,
+.react-flow__node-group {
+  background-color: transparent !important;
+  padding: 0 !important;        /* remove padding from wrapper */
+  border: none !important;      /* optionally remove wrapper border if interfering */
+}
 
+
+
+/* If needed, target wrapper + custom node class */
+.react-flow__node-default.custom-node,
+.react-flow__node-default.custom-node > div {
+  background-color: transparent !important;
+}
+
+.clip-diamond {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+}
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
