@@ -1,32 +1,33 @@
-import React, { memo } from 'react';
-import { Handle, Position,type NodeProps,type Node} from '@xyflow/react';
+import { Handle, Position,type NodeProps} from '@xyflow/react';
+import { type MyNode } from '../types/MyNodeData';
 
-interface CustomNodeData{
-  id: string;
-  type: 'input' | 'default' | 'output' | 'Custom1' | 'Custom2'
-  data: {
-    label: string;
-    color?: string;
-    shape?: string;
+
+
+const StyledNode = (props: NodeProps<MyNode>) =>{
+  const {data, isConnectable, selected} = props;
+
+  const {label, color, shape } = data
+
+  let shapeClass = '';
+  if (shape === 'circle') {
+    shapeClass = 'rounded-full';
+  } else if (shape === 'diamond') {
+    shapeClass = 'clip-diamond';
+  } else {
+    shapeClass = 'rounded-md';
   }
-  position: {
-    x: number;
-    y: number;
-  };
-
-}
-
-//well this requires to add custom types in typescript we specifically need to change 
-//data which is one of the nodeprops predifined in type NodeProps that reactflow gives us 
-//beforehand
-
-const Custom1 = ({ data } : NodeProps<CustomNodeData>) => {
-  const nodecolor = ""
-  return (
-    <div className={`bg-${data.color}`}>
-
+  
+  console.log('Rendering StyledNode with data:', data);
+  return(
+    <div className={`${shapeClass} w-full h-full p-2 border ${selected ? 'ring-2 ring-blue-500' : ''}`} style={{ backgroundColor: color }}>
+      
+      <div>{label}</div>
+      <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
+      <Handle type="source" position={Position.Bottom} isConnectable={isConnectable} />
     </div>
-  );
+  )
+
 }
 
-export default memo(Custom1);
+export default StyledNode
+
