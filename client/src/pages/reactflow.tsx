@@ -18,6 +18,8 @@ import {
 } from '@xyflow/react';
 import dagre from '@dagrejs/dagre';
 import { useFlowContext } from '../App';
+// import Custom1 from '../components/CustomNode1';
+import StyledNode from '../components/CustomNode1';
 
 import '@xyflow/react/dist/style.css';
 
@@ -26,6 +28,12 @@ const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
 const nodeWidth = 172;
 const nodeHeight = 36;
+
+const nodeTypes = {
+    default: StyledNode,
+    output: StyledNode,
+    input: StyledNode
+}
 
 const getLayoutedElements = (nodes: any[], edges: any[], direction = 'TB') => {
   const isHorizontal = direction === 'LR';
@@ -540,6 +548,7 @@ const edge = [
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       connectionLineType={ConnectionLineType.SmoothStep}
+      nodeTypes={nodeTypes}
       fitView
     >
       <Panel position="top-right">
