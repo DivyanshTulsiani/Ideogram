@@ -15,18 +15,24 @@ import tempfile
 import re, json
 import os
 from langchain_community.vectorstores import FAISS
+from chromadb.config import  Settings
 # import faiss
 app = FastAPI()
 
 # # ephemeral store per user
 # user_stores = {}
 
+
 # A global dictionary to map user IDs to collection names
 user_collections = {}
 
 # Initialize the persistent Chroma client once at startup
 # All user data will be stored in the 'vectorstores' directory
-persistent_client = chromadb.PersistentClient(path="./vectorstores")
+# persistent_client = chromadb.PersistentClient(path="./vectorstores",settings=Settings(allow_reset=True))
+
+persistent_client = chromadb.EphemeralClient()
+
+# persistent_client.reset()
 
 # You can reuse the HuggingFaceEmbeddings model for consistency
 embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
@@ -46,11 +52,11 @@ os.environ["GOOGLE_API_KEY"] = "AIzaSyBbhfkyNdxPG-KpnCIPVbtt4-qIBHpFf24"
 #shift to chromadb client
 @app.post("/upload-pdf/{user_id}")
 async def upload_pdf(user_id: str, file: UploadFile = File(...)):
-    # Save uploaded PDF to a temporary file
+    #we have to sanitize user id as collection name should not include special characters
     sanitized_user_id = re.sub(r'[^a-zA-Z0-9._-]', '_', user_id)
     collection_name = f"user-{sanitized_user_id}-docs"
-    
-    # Check if the collection already exists and delete it if it does
+    persistent_client.list_collections()
+    # this checks if connection present before
     try:
         persistent_client.delete_collection(collection_name)
     except Exception as e:
@@ -62,7 +68,7 @@ async def upload_pdf(user_id: str, file: UploadFile = File(...)):
         tmp.write(await file.read())
         tmp_path = tmp.name
 
-    # Load with PyPDFLoader
+    # currently using PyPDFLoader will shift if available
     loader = PyPDFLoader(tmp_path)
     documents = loader.load()
     os.remove(tmp_path)
@@ -147,13 +153,18 @@ Rules:
 - Always generate a diagram, even if no extra context is given.
 - Return ONLY valid JSON (no text outside JSON).
 - JSON must have this exact structure for React Flow:
+- Don't add colors or shape in nodes data until specified
 
 {{
   "nodes": [
     {{
       "id": "unique-string",
       "type": "input" | "default" | "output",
-      "data": {{ "label": "string" }},
+      {{
+        "label": "string",
+        "color": "string (optional)",
+        "shape": "string (optional)"
+      }},
       "position": {{ "x": number, "y": number }}
     }}
   ],
@@ -205,26 +216,72 @@ Additional guidelines:
         return {"error": str(e)}
       
       
-
-
-
 # @app.delete("/delete-pdf-context/{user_id}")
 # async def delete_pdf_context(user_id: str):
-#     collection_name = user_collections.get(user_id)
+    
+#     # 1. DETERMINE PHYSICAL PATH (Robust, deterministic)
 #     sanitized_user_id = re.sub(r'[^a-zA-Z0-9._-]', '_', user_id)
-#     collection_dir_name = f"user-{sanitized_user_id}-docs"
-#     collection_path = os.path.join("./vectorstores", collection_dir_name)
-#     if collection_name:
+#     collection_name_derived = f"user-{sanitized_user_id}-docs"
+#     collection_path = os.path.join("./vectorstores", collection_name_derived)
+    
+#     # 2. LOGICAL CLEANUP (Attempt deletion from the persistent client)
+#     # Use the derived name for logical deletion
+#     try:
+#         # Chroma's delete_collection is idempotent (won't fail if the collection doesn't exist)
+#         persistent_client.delete_collection(collection_name_derived)
+        
+#         # 3. CLEAN UP IN-MEMORY ENTRY (if it exists)
+#         # Check against the derived name, just in case
+#         if user_collections.get(user_id) == collection_name_derived:
+#              user_collections.pop(user_id, None)
+
+#     except Exception as e:
+#         # Catch any internal Chroma error but proceed to physical cleanup if possible
+#         print(f"Chroma logical delete failed for {collection_name_derived}: {e}")
+#         # Return an error message but include the attempt to delete the files
+#         # We will return this error if physical delete also fails
+
+#     # 4. PHYSICAL CLEANUP (The most important part for file system cleanup)
+#     if os.path.exists(collection_path):
 #         try:
-#             persistent_client.delete_collection(collection_name)
-#             user_collections.pop(user_id, None)
-#             if os.path.exists(collection_path):
-#               shutil.rmtree(collection_path)
-#               print(f"Successfully deleted physical directory: {collection_path}")
-#             return {"status": "PDF context deleted successfully", "user_id": user_id}
+#             shutil.rmtree(collection_path)
+#             print(f"Successfully deleted physical directory: {collection_path}")
+#             return {"status": "PDF context and files deleted successfully", "user_id": user_id}
 #         except Exception as e:
-#             return {"status": "Error", "message": f"Could not delete collection: {e}"}
+#             # If directory deletion fails, this is the final error
+#             return {"status": "Error", "message": f"Could not delete physical files in {collection_path}: {e}"}
+            
+#     # 5. Handle "Not Found" case
+#     # If the collection wasn't found logically by Chroma AND the directory didn't exist
+#     if user_collections.get(user_id):
+#         # This case is tricky: in-memory exists, but neither Chroma nor folder exists. Clean up in-memory.
+#         user_collections.pop(user_id, None)
+        
 #     return {"status": "Not Found", "message": f"No active PDF context found for user_id: {user_id}"}
+
+
+@app.delete("/delete-pdf-context/{user_id}")
+async def delete_pdf_context(user_id: str):
+    collection_name = user_collections.get(user_id)
+    sanitized_user_id = re.sub(r'[^a-zA-Z0-9._-]', '_', user_id)
+    collection_dir_name = f"user-{sanitized_user_id}-docs"
+    collection_path = os.path.join("./vectorstores", collection_dir_name)
+    if collection_name:
+        try:
+            col = persistent_client.list_collections()
+            for c in col:
+              print(c.name)
+            persistent_client.delete_collection(collection_name)
+            persistent_client.list_collections()
+            user_collections.pop(user_id, None)
+            if os.path.exists(collection_path):
+              print("deleted from inmem")
+              shutil.rmtree(collection_path)
+              print(f"Successfully deleted physical directory: {collection_path}")
+            return {"status": "PDF context deleted successfully", "user_id": user_id}
+        except Exception as e:
+            return {"status": "Error", "message": f"Could not delete collection: {e}"}
+    return {"status": "Not Found", "message": f"No active PDF context found for user_id: {user_id}"}
 
 
 
