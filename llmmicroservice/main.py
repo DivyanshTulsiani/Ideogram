@@ -154,6 +154,7 @@ Rules:
 - Return ONLY valid JSON (no text outside JSON).
 - JSON must have this exact structure for React Flow:
 - Don't add colors or shape in nodes data until specified
+- Use light and subtle colors to make it look elegant
 
 {{
   "nodes": [
