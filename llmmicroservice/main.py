@@ -16,6 +16,9 @@ import re, json
 import os
 from langchain_community.vectorstores import FAISS
 from chromadb.config import  Settings
+from dotenv import load_dotenv
+load_dotenv()
+
 # import faiss
 app = FastAPI()
 
