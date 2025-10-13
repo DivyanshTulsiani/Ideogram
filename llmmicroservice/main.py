@@ -1,4 +1,5 @@
 import shutil
+import uvicorn
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 # from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
@@ -22,9 +23,9 @@ load_dotenv()
 # import faiss
 app = FastAPI()
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))  # fallback to 8000 for local testing
-    uvicorn.run("main:app", host="0.0.0.0", port=port)
+# if __name__ == "__main__":
+#     port = int(os.environ.get("PORT", 8000))  # fallback to 8000 for local testing
+#     uvicorn.run("main:app", host="0.0.0.0", port=port)
 
 # # ephemeral store per user
 # user_stores = {}
@@ -295,7 +296,9 @@ async def delete_pdf_context(user_id: str):
 
 
 
-
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))  # fallback to 8000 for local testing
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
 
 
 
