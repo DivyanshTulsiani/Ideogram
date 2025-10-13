@@ -38,14 +38,18 @@ user_collections = {}
 # All user data will be stored in the 'vectorstores' directory
 # persistent_client = chromadb.PersistentClient(path="./vectorstores",settings=Settings(allow_reset=True))
 
-persistent_client = chromadb.EphemeralClient()
+# persistent_client = chromadb.EphemeralClient()
 
-# persistent_client.reset()
+# # persistent_client.reset()
 
-# You can reuse the HuggingFaceEmbeddings model for consistency
-embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
-)
+# # You can reuse the HuggingFaceEmbeddings model for consistency
+# embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
+#     model_name="sentence-transformers/all-MiniLM-L6-v2"
+# )
+
+persistent_client = None
+embeddings = None
+
 
 class DiagramRequest(BaseModel):
     user_id: str
@@ -56,6 +60,14 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
 # # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 # embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+
+@app.on_event("startup")
+async def startup_event():
+    global persistent_client, embeddings
+    persistent_client = chromadb.EphemeralClient()
+    embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
 
 #shift to chromadb client
 @app.post("/upload-pdf/{user_id}")
