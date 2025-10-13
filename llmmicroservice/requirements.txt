@@ -1,7 +1,13 @@
 fastapi
 uvicorn
+pydantic
 langchain
 langchain-google-genai
-pydantic
+langchain-huggingface
+langchain-community
 chromadb
+sentence-transformers
 pypdf
+faiss-cpu
+python-multipart
+python-dotenv

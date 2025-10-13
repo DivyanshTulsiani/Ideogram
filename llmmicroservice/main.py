@@ -43,7 +43,7 @@ class DiagramRequest(BaseModel):
     user_id: str
     prompt: str
 
-os.environ["GOOGLE_API_KEY"] = "AIzaSyBbhfkyNdxPG-KpnCIPVbtt4-qIBHpFf24"
+os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
 
 # # embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
