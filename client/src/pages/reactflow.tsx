@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect,useState, type ChangeEventHandler } from 'react';
 import  FileUploader  from '../components/FileUploader'
 import Input from '../components/Input';
 // import 'tailwind.css';
@@ -10,11 +10,13 @@ import {
   ConnectionLineType,
   Panel,
   useNodesState,
+  ReactFlowProvider,
   useEdgesState,
   Controls,
   type Node,
   type Edge,
-  type Connection
+  type Connection,
+  type ColorMode
 } from '@xyflow/react';
 import dagre from '@dagrejs/dagre';
 import { useFlowContext } from '../App';
@@ -23,6 +25,8 @@ import StyledNode from '../components/CustomNode1';
 
 import '@xyflow/react/dist/style.css';
 
+import  Sidebar  from '../components/Sidebar';
+import { DnDProvider } from '../hooks/useDnd';
 
 const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
@@ -81,6 +85,12 @@ const getLayoutedElements = (nodes: any[], edges: any[], direction = 'TB') => {
 const Flow = () => {
 
   const {initialEdges,initialNodes,SetinitialEdges,SetinitialNodes } = useFlowContext()
+
+  const [colorMode, setColorMode] = useState<ColorMode>('light');
+
+  const onChange: ChangeEventHandler<HTMLSelectElement> = (evt) => {
+    setColorMode(evt.target.value as ColorMode);
+  };
 
   const [nodes, setNodes, onNodesChange] = useNodesState([] as Node[]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([] as Edge[]);
@@ -540,7 +550,9 @@ const edge = [
   );
 
   return (
-    <div style={{ width: '80%', height: '80vh' }}>
+    <div style={{ width: '100%', height: '100vh' }}>
+    <div className='dndflow'>
+    <div  className='reactflow-wrapper'>
     <ReactFlow
       nodes={nodes}
       edges={edges}
@@ -549,15 +561,31 @@ const edge = [
       onConnect={onConnect}
       connectionLineType={ConnectionLineType.SmoothStep}
       nodeTypes={nodeTypes}
+      colorMode={colorMode}
       fitView
     >
-      <Panel position="top-right">
+      {/* <Panel position="top-right">
         <button className="xy-theme__button" onClick={() => onLayout('TB')}>
           vertical layout
         </button>
         <button className="xy-theme__button" onClick={() => onLayout('LR')}>
           horizontal layout
         </button>
+      </Panel> */}
+
+    <Panel position="top-right">
+        <select
+          className="xy-theme__select"
+          onChange={onChange}
+          data-testid="colormode-select"
+        >
+          <option value="dark">dark</option>
+          <option value="light">light</option>
+          <option value="system">system</option>
+        </select>
+      </Panel>
+      <Panel position='center-left'>
+        <Sidebar/>
       </Panel>
       <Panel position='bottom-center'>
         <button  onClick={()=>SetinitialNodes(node)}>
@@ -571,14 +599,17 @@ const edge = [
           <input className='bg-red-300'/>
         </div> */}
         
+        
 
       </Panel>
       <Controls/>
       <Background />
 
-
-      
     </ReactFlow>
+    <Sidebar/>
+    </div>
+    </div>
+
     </div>
   );
 };
@@ -588,7 +619,12 @@ const Parent = () =>{
   return(
     <> 
     <div className='relative w-full h-screen'>
-      <Flow/>
+        <ReactFlowProvider>
+        <DnDProvider>
+        <Flow/>
+        </DnDProvider>
+        </ReactFlowProvider>
+        
       <Input/>
       <FileUploader/>
     </div>
