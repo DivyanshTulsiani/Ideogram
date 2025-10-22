@@ -1,8 +1,9 @@
-import { useState, createContext, useEffect, useContext } from 'react';
+import { useState, createContext, useContext } from 'react';
 import '@xyflow/react/dist/style.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/authpage';
 import Reactflow from './pages/reactflow'
+import { GenerateLoaderContextProvider } from './components/Input';
 import {
     type Node,
     type Edge
@@ -54,6 +55,7 @@ export const useFlowContext = () => {
 export default function App() {
     return (
         <FlowProvider>
+            <GenerateLoaderContextProvider>
             <BrowserRouter>
                 <Routes>
                     <Route path="/">
@@ -62,6 +64,7 @@ export default function App() {
                     </Route>
                 </Routes>
             </BrowserRouter>
+            </GenerateLoaderContextProvider>
         </FlowProvider>
     );
 }

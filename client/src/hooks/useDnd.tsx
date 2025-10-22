@@ -121,7 +121,7 @@ export const useDnDPosition = () => {
   // This will be used to display the `DragGhost` component.
   const onDrag = useCallback((event: PointerEvent) => {
     event.preventDefault();
-    setPosition({ x: event.clientX, y: event.clientY });
+    setPosition({ x: event.clientX, y: event.clientY - 320 });
   }, []);
 
   useEffect(() => {

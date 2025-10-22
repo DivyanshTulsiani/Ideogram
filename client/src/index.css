@@ -10,7 +10,16 @@
   border: none !important;      /* optionally remove wrapper border if interfering */
 }
 
+/* .react-flow__handle-top {
+  top: 4px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: blue;
+} */
 
+.react-flow__node {
+  overflow: visible !important;
+}
 
 /* If needed, target wrapper + custom node class */
 .react-flow__node-default.custom-node,
@@ -18,9 +27,144 @@
   background-color: transparent !important;
 }
 
+.clip-diamond-wrapper {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamond shape */
+  background-color: #1a192b; /* Border color (black) */
+  width: 115px;
+  height: 65px; 
+  /* padding: 23% 19.2%; */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .clip-diamond {
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background-color: white;
+  padding: 5px;
+  width: 108px;
+  height: 61px;
+
+/* Height of the diamond */
 }
+
+
+.clip-oval-wrapper{
+  clip-path: ellipse(50% 25% at 50% 50%);
+  background-color: black;
+  width: 125px; /* Width of the oval */
+  height: 65px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clip-oval {
+  clip-path: ellipse(50% 25% at 50% 50%);
+  background-color: white;
+  width: 120px; /* Width of the oval */
+  height: 60px; /* Height of the oval */
+}
+
+
+
+
+
+
+
+
+
+
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  /* Prevent zoom on mobile when tapping */
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
+}
+
+.dndflow {
+  flex-direction: column;
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.dndflow aside {
+  padding: 15px 10px;
+  font-size: 12px;
+  background: #f5f7fa;
+  border-radius: 1rem;
+  width: 3rem;
+  height: 10rem;
+}
+
+.dndflow aside .description {
+  margin-bottom: 10px;
+}
+
+.dndflow .dndnode {
+  height: 20px; 
+  border-radius: 6px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  /* Prevent zoom or scroll when dragging nodes on mobile */
+  touch-action: none;
+  font-size: 12px;
+  text-wrap: nowrap;
+}
+
+.dndflow .ghostnode {
+  position: absolute;
+  pointer-events: none;
+  /* width: 100px; */
+  transform: translate(-50%, -50%); 
+}
+
+.dndflow .dndnode:active {
+  cursor: grabbing;
+}
+
+/* .dndflow .dndnode.input {
+  border-color: #0041d0;
+} */
+
+.dndflow .dndnode.output {
+  border-color: #ff0072;
+}
+
+.dndflow .reactflow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .dndflow {
+    flex-direction: row;
+  }
+
+  .dndflow aside {
+    width: 100%;
+    max-width: 250px;
+  }
+}
+
+
+
 
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;

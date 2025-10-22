@@ -1,6 +1,8 @@
 import { useCallback, useEffect,useState, type ChangeEventHandler } from 'react';
 import  FileUploader  from '../components/FileUploader'
 import Input from '../components/Input';
+import { GenerateLoader } from '../components/GenerateLoader';
+import Navbar from '../components/Navbar';
 // import 'tailwind.css';
 // import '.../tailwind.config.ts'
 import {
@@ -22,6 +24,7 @@ import dagre from '@dagrejs/dagre';
 import { useFlowContext } from '../App';
 // import Custom1 from '../components/CustomNode1';
 import StyledNode from '../components/CustomNode1';
+import { StyledNodeEdit } from '../components/CustomNode1';
 
 import '@xyflow/react/dist/style.css';
 
@@ -36,7 +39,8 @@ const nodeHeight = 36;
 const nodeTypes = {
     default: StyledNode,
     output: StyledNode,
-    input: StyledNode
+    input: StyledNode,
+    edit: StyledNodeEdit,
 }
 
 const getLayoutedElements = (nodes: any[], edges: any[], direction = 'TB') => {
@@ -550,7 +554,7 @@ const edge = [
   );
 
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
+    <div style={{ width: '100%', height: '100dvh' }}>
     <div className='dndflow'>
     <div  className='reactflow-wrapper'>
     <ReactFlow
@@ -587,26 +591,23 @@ const edge = [
       <Panel position='center-left'>
         <Sidebar/>
       </Panel>
-      <Panel position='bottom-center'>
+      {/* <Panel position='bottom-center'>
         <button  onClick={()=>SetinitialNodes(node)}>
           hi
         </button>
         <button className='w-20 h-5 rounded-xl bg-blue-500' onClick={()=>SetinitialEdges(edge)}>
           hi
         </button>
-        {/* <div>
+        <div>
           <h2>this is inp</h2>
           <input className='bg-red-300'/>
-        </div> */}
-        
-        
-
-      </Panel>
+        </div>
+    
+      </Panel> */}
       <Controls/>
       <Background />
 
     </ReactFlow>
-    <Sidebar/>
     </div>
     </div>
 
@@ -621,12 +622,13 @@ const Parent = () =>{
     <div className='relative w-full h-screen'>
         <ReactFlowProvider>
         <DnDProvider>
+        <Navbar/>
         <Flow/>
         </DnDProvider>
         </ReactFlowProvider>
-        
+
+        <GenerateLoader/>
       <Input/>
-      <FileUploader/>
     </div>
     </>
   )
