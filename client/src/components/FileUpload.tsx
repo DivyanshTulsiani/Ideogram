@@ -1,9 +1,13 @@
-import { type ChangeEvent, type MouseEvent} from "react"
+import { useEffect } from "react"
 import { memo } from 'react'
+import pdflogo from '../assets/pdf.png'
+
+type UploadStatus = 'idle' | 'uploading' | 'success' | 'error'
 
 interface FileUploadProps {
   File: File;
-  OnchangeFile: (e: MouseEvent<HTMLButtonElement>) => void;
+  OnchangeFile: () => void;
+  Status: UploadStatus;
 }
 
 //important learning 
@@ -22,24 +26,35 @@ interface FileUploadProps {
 //for giving types to onClick hanlder in a button use MouseEvent<HTMLButtonElement> as simple as that
 const FileUpload = (props: FileUploadProps) => {
 
+  useEffect(() => {
+    if (props.File && props.Status != 'uploading' && props.Status != 'success' && props.Status != 'error') {
+      props.OnchangeFile();
+    }
+  }, [props.File, props.OnchangeFile, props.Status])
+
+
+  // //ye sirf idle pe chalega
+  // if(props.File && props.Status != 'uploading' &&  props.Status != 'success' && props.Status != 'error'){
+  //   props.OnchangeFile()
+  // }
+
   return (
     <>
-      <div className="flex justify-between items-center px-2 py-3 bg-[#e1e9f6] h-[3rem] w-[35%] rounded-lg mb-3">
+      <div className="flex justify-between items-center px-2 py-3 bg-[#e1e9f6] h-[3rem] w-[35%] rounded-lg mb-3 shadow-sm">
         <div className="flex-none w-[60%] items-center truncate">
           {props.File.name}
         </div>
-        <div className="flex-none bg-red-300 rounded-lg p-1 items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <div className="flex-none rounded-lg p-1 items-center">
+          {/* <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejnooin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m6.75 12-3-3m0 0-3 3m3-3v6m-1.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-          </svg>
+          </svg> */}
+          <img src={pdflogo} className="w-6 h-auto" />
 
 
         </div>
-        <div>
-          <button onClick={props.OnchangeFile}>
-            h
-          </button>
-        </div>
+        {props.Status === 'uploading' ? (<div className="items-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" height="20" width="20"><radialGradient id="a9" cx=".66" fx=".66" cy=".3125" fy=".3125" gradientTransform="scale(1.5)"><stop offset="0" stop-color="#000000"></stop><stop offset=".3" stop-color="#000000" stop-opacity=".9"></stop><stop offset=".6" stop-color="#000000" stop-opacity=".6"></stop><stop offset=".8" stop-color="#000000" stop-opacity=".3"></stop><stop offset="1" stop-color="#000000" stop-opacity="0"></stop></radialGradient><circle transform-origin="center" fill="none" stroke="url(#a9)" stroke-width="15" stroke-linecap="round" stroke-dasharray="200 1000" stroke-dashoffset="0" cx="100" cy="100" r="70"><animateTransform type="rotate" attributeName="transform" calcMode="spline" dur="2.5" values="360;0" keyTimes="0;1" keySplines="0 0 1 1" repeatCount="indefinite"></animateTransform></circle><circle transform-origin="center" fill="none" opacity=".2" stroke="#000000" stroke-width="15" stroke-linecap="round" cx="100" cy="100" r="70"></circle></svg></div>) : null}
+
+
       </div>
     </>
   )
