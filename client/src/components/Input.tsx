@@ -156,7 +156,7 @@ const Input = () => {
 
         </div>
         </div>) :
-        <div className='absolute left-1/2 top-9/10 -translate-x-1/2 -translate-y-9/10 flex items-center gap-2 rounded-2xl bg-[#f5f7fa] shadow-sm px-3 py-2 w-[95%] sm:w-[75%] md:w-[70%] lg:w-[50%] xl:w-[50%] mx-auto h-[3.5rem]'>
+        <div className='absolute left-1/2 top-9/10 -translate-x-1/2 -translate-y-9/10 flex items-center gap-2 rounded-2xl bg-[#f5f7fa] z-index-2 shadow-sm px-3 py-2 w-[95%] sm:w-[75%] md:w-[70%] lg:w-[50%] xl:w-[50%] mx-auto h-[3.5rem]'>
           <div>
             <input type="file" accept='application/pdf' onChange={FileChangeHandler} id='pdf-upload' className='hidden' />
             <label htmlFor='pdf-upload' className='flex items-center justify-center gap-1 bg-white rounded-full shadow-sm p-1 hover:bg-blue-300 transition cursor-pointer duration-300 ease-in'>
