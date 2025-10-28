@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: Inter;
+  src: url("../src/assets/Fonts/Inter-VariableFont_opsz\,wght\ copy.ttf ");
+}
+
+@theme{
+  --font-inter: Inter,"sans-serif"; 
+}
+
 /* Make wrapper background transparent (so your custom node's bg shows) */
 .react-flow__node-default,
 .react-flow__node-input,
@@ -26,6 +35,9 @@
 .react-flow__node-default.custom-node > div {
   background-color: transparent !important;
 }
+
+
+
 
 .clip-diamond-wrapper {
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); /* Diamond shape */
