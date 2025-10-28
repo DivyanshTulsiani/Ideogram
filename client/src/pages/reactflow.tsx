@@ -3,6 +3,7 @@ import  FileUploader  from '../components/FileUploader'
 import Input from '../components/Input';
 import { GenerateLoader } from '../components/GenerateLoader';
 import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar';
 // import 'tailwind.css';
 // import '.../tailwind.config.ts'
 import {
@@ -15,6 +16,7 @@ import {
   ReactFlowProvider,
   useEdgesState,
   Controls,
+  BackgroundVariant,
   type Node,
   type Edge,
   type Connection,
@@ -28,7 +30,7 @@ import { StyledNodeEdit } from '../components/CustomNode1';
 
 import '@xyflow/react/dist/style.css';
 
-import  Sidebar  from '../components/Sidebar';
+import  SidebarEdit  from '../components/SidebarEdit';
 import { DnDProvider } from '../hooks/useDnd';
 
 const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
@@ -589,7 +591,7 @@ const edge = [
         </select>
       </Panel>
       <Panel position='center-left'>
-        <Sidebar/>
+        <SidebarEdit/>
       </Panel>
       {/* <Panel position='bottom-center'>
         <button  onClick={()=>SetinitialNodes(node)}>
@@ -605,7 +607,8 @@ const edge = [
     
       </Panel> */}
       <Controls/>
-      <Background />
+      {/* lines cross dots*/}
+      <Background bgColor='#fbfbfb' variant={BackgroundVariant.Dots}/>
 
     </ReactFlow>
     </div>
@@ -617,18 +620,26 @@ const edge = [
 
 const Parent = () =>{
 
+    const [SidebarOpen,SetSidebar] = useState<boolean>(true)
+
   return(
     <> 
     <div className='relative w-full h-screen'>
         <ReactFlowProvider>
         <DnDProvider>
-        <Navbar/>
-        <Flow/>
+        <div className='flex flex-1'>
+            <div className=''>
+                <Sidebar SidebarOpen={SidebarOpen} SetSidebar={SetSidebar}/>
+            </div>
+            <div className='flex-1 relative'>
+            <Navbar SidebarOpen={SidebarOpen} SetSidebar={SetSidebar}/>
+            <Flow/>
+            </div>
+        </div>
+        <GenerateLoader/>
+        <Input/>
         </DnDProvider>
         </ReactFlowProvider>
-
-        <GenerateLoader/>
-      <Input/>
     </div>
     </>
   )
