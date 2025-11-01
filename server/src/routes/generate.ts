@@ -22,6 +22,72 @@ const router = Router();
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
 
+router.post("/getchat",authmiddleware,async (req: Request,res: Response) =>{
+  try{
+    const email = req.user?.email
+
+    
+    const user = await UserModel.findOne({email: email})
+    if(!user){
+      res.status(404).json({
+        message: "User not found"
+      })
+    }
+    const userId = user?._id
+
+    try{
+      const chats = await ContentPromptModel.find({UserId: userId})
+
+      if(!chats){
+        res.status(404).json({
+          message: "User not found"
+        })
+      }
+
+      res.status(200).json({
+        chats
+      })
+    }
+    catch(e){
+      res.status(500).json({
+        e: e,
+        message: "Internal server error"
+      })
+    }
+
+  }
+  catch(e){
+    res.status(500).json({
+      e: e,
+      message: "Internal server error"
+    })
+  }
+})
+
+
+router.post("/getuserdata",authmiddleware,async (req: Request,res: Response) =>{
+  try{
+    const email = req.user?.email;
+
+    const user = await UserModel.find({email: email})
+
+    if(!user){
+     res.status(404).json({
+      message: "User not found"
+     })
+    }
+
+    res.status(200).json({
+      email: user[0]?.email,
+      name: user[0]?.name
+
+    })
+  }
+  catch(e){
+
+  }
+})
+
 router.post("/uploadpdf",authmiddleware,upload.single("file"),async (req: Request,res: Response) =>{
   try{
     const userId  = req.user?.email
@@ -56,7 +122,7 @@ router.post("/uploadpdf",authmiddleware,upload.single("file"),async (req: Reques
 
     console.log("check 3")
   
-    const fastapiresponse = await fetch(`http://127.0.0.1:8000/upload-pdf/${userId}`,{
+    const fastapiresponse = await fetch(`https://fastapi-q58g.onrender.com/upload-pdf/${userId}`,{
       method: "POST",
       body: formData,
       headers: formData.getHeaders()
@@ -106,7 +172,7 @@ router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
         Error: e
       })
     }
-    const fastapiresponse = await fetch(`http://127.0.0.1:8000/generate/diagram`,{
+    const fastapiresponse = await fetch(`https://fastapi-q58g.onrender.com/generate/diagram`,{
       method: "POST",
       headers:{
         "Content-Type": "application/json"
