@@ -21,7 +21,7 @@ const HeroIntro = () => {
         </div>
 
         {/* Main Intro */}
-        <div className='mt-[1rem] lg:mt-[1rem] flex flex-col px-10 md:px-50 lg:px-70 xl:px-100 lg:mt-[1.5rem]'>
+        <div className='mt-[2rem] lg:mt-[1rem] flex flex-col px-5 md:px-50 lg:px-70 xl:px-100 lg:mt-[1.5rem]'>
           <div className='text-2xl font-[450] lg:text-4xl text-center leading-tight'>
             Generate <span className='font-playfair'>smart flowcharts</span> within seconds with power of AI
           </div>

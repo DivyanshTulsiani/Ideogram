@@ -5,6 +5,16 @@
   src: url("../src/assets/Fonts/Inter-VariableFont_opsz\,wght\ copy.ttf ");
 }
 
+@font-face {
+  font-family: PlayFairDisplay;
+  src: url("../src/assets/Fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf");
+}
+
+@theme{
+  --font-playfair: PlayFairDisplay,"sans-serif"; 
+}
+
+
 @theme{
   --font-inter: Inter,"sans-serif"; 
 }

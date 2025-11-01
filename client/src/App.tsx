@@ -3,12 +3,14 @@ import '@xyflow/react/dist/style.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/authpage';
 import Reactflow from './pages/reactflow'
+import Landing from './pages/landing';
 import { GenerateLoaderContextProvider } from './components/Input';
 import {
     type Node,
     type Edge
 } from '@xyflow/react';
 // import '.../tailwind.config.ts'
+
 
 interface FlowProviderProps {
     children: React.ReactNode
@@ -60,6 +62,7 @@ export default function App() {
                 <Routes>
                     <Route path="/">
                         <Route path="/" element={<AuthPage />} />
+                        <Route path="/landing" element={<Landing />} />
                         <Route path="/flow" element={<Reactflow />} />
                     </Route>
                 </Routes>

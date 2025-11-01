@@ -18,10 +18,20 @@ import os
 from langchain_community.vectorstores import FAISS
 from chromadb.config import  Settings
 from dotenv import load_dotenv
+from contextlib import asynccontextmanager
 load_dotenv()
 
+@asynccontextmanager
+async def lifespan(app):
+    global persistent_client, embeddings
+    persistent_client = chromadb.EphemeralClient()
+    embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+    yield
+    print("end of lifespan")
 # import faiss
-app = FastAPI()
+app = FastAPI(lifespan=lifespan)
 
 # if __name__ == "__main__":
 #     port = int(os.environ.get("PORT", 8000))  # fallback to 8000 for local testing
@@ -61,13 +71,14 @@ os.environ["GOOGLE_API_KEY"] = os.getenv("GEMINI_API_KEY")
 
 # embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-@app.on_event("startup")
-async def startup_event():
-    global persistent_client, embeddings
-    persistent_client = chromadb.EphemeralClient()
-    embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
-    )
+# @app.on_event("startup")
+# async def startup_event():
+#     global persistent_client, embeddings
+#     persistent_client = chromadb.EphemeralClient()
+#     embeddings = embedding_functions.SentenceTransformerEmbeddingFunction(
+#         model_name="sentence-transformers/all-MiniLM-L6-v2"
+#     )
+
 
 #shift to chromadb client
 @app.post("/upload-pdf/{user_id}")
@@ -175,6 +186,7 @@ Rules:
 - JSON must have this exact structure for React Flow:
 - Don't add colors or shape in nodes data until specified
 - Use light and subtle colors to make it look elegant
+- Use only rectangle or diamond in shapes and prefer rectangle
 
 {{
   "nodes": [
@@ -207,7 +219,7 @@ Additional guidelines:
 
     prompt = ChatPromptTemplate.from_template(template)
     llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
-    chain = prompt | llm
+    chain = prompt | llm 
 
     try:
         result = await chain.ainvoke({
