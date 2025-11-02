@@ -1,13 +1,13 @@
 import RightArrow from '../../src/assets/right-arrow.png'
-
+import grid from '../assets/grid.png'
 
 const HeroIntro = () => {
   return (
     <>
       <div className="flex flex-col items-center font-inter">
         {/* Transform banner */}
-        <div className="flex items-center bg-[#fefefe] rounded-lg px-2 py-0.5 lg:py-1 lg:py-[1.5] text-[0.6rem] lg:text-sm gap-2 shadow-lg">
-          <div className="bg-clip-text bg-gradient-to-r from-blue-600 to-red-300 text-transparent text-lg">
+        <div className="flex items-center bg-[#fefefe] shadow-[inset_0_4px_12px_rgba(0,0,0,0.08),0_4px_20px_rgba(0,0,0,0.05)] rounded-md px-2 py-0.5 lg:py-0.5 lg:py-[1.5] text-[0.6rem] lg:text-[0.5rem] gap-2 ">
+          <div className="bg-clip-text bg-gradient-to-r from-blue-600 to-red-300 text-transparent text-sm">
             ✨
           </div>
           <div>
@@ -21,11 +21,11 @@ const HeroIntro = () => {
         </div>
 
         {/* Main Intro */}
-        <div className='mt-[2rem] lg:mt-[1rem] flex flex-col px-5 md:px-50 lg:px-70 xl:px-100 lg:mt-[1.5rem]'>
-          <div className='text-2xl font-[450] lg:text-4xl text-center leading-tight'>
+        <div className='mt-[2rem] flex flex-col px-5 md:px-50 lg:px-70 xl:px-100 lg:mt-[0.5rem]'>
+          <div className='text-2xl font-[450] lg:text-3xl text-center leading-tight'>
             Generate <span className='font-playfair'>smart flowcharts</span> within seconds with power of AI
           </div>
-          <div className='text-[#6B7280] flex justify-center px-5 items-center text-[0.6rem] mt-[0.5rem] lg:text-[0.9rem]  text-center'>
+          <div className='text-[#6B7280] flex justify-center px-5 items-center text-[0.6rem] mt-[0.5rem] lg:text-[0.7rem]  text-center'>
             Generate flowcharts effortlessly from simple prompts. Upload your own PDFs, customize every detail, and make it uniquely yours — flowcharts have never been this exciting!
           </div>
         </div>
