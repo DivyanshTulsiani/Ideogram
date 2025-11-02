@@ -3,7 +3,7 @@ import React from "react";
 
 export default function DecorativeSquares() {
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
+    <div className="absolute inset-0 pointer-events-none overflow-hidden -z-1">
       {/* faint squares */}
       <div className="absolute top-[14%] left-[15%] w-10 h-10 border border-dashed border-[#c1c8d6] rounded-md animate-pulse " />
       <div className="absolute top-[25%] left-[10%] w-12 h-12 border border-dashed border-[#c1c8d6] rounded-md animate-pulse" />
