@@ -61,8 +61,8 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route path="/">
-                        <Route path="/" element={<AuthPage />} />
-                        <Route path="/landing" element={<Landing />} />
+                        <Route path="/auth" element={<AuthPage />} />
+                        <Route path="/" element={<Landing />} />
                         <Route path="/flow" element={<Reactflow />} />
                     </Route>
                 </Routes>

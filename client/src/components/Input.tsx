@@ -3,6 +3,8 @@ import { useFlowContext } from '../App';
 import { memo } from 'react';
 import FileUpload from './FileUpload';
 
+
+
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error'
 
 type GenerateStatus = 'idle' | 'Generating'
@@ -63,14 +65,15 @@ const Input = () => {
     console.log(InputFile?.name) 
     if (InputFile && Status != 'uploading') {
       SetStatus('uploading')
+      const token = localStorage.getItem('token')
       const formdata = new FormData()
       formdata.append('file', InputFile)
       try {
         const response = await fetch(`http://localhost:3000/api/v1/content/uploadpdf`, {
           method: "POST",
-          headers: {
-            "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpdjk5QGdtYWlsLmNvbSIsImlhdCI6MTc1OTc2MTMzNX0.4SxVLt3XsKH5o-DSPQTtJjCKnKo1DekfG5wcwnzcu7c"
-          },
+          headers: token? {
+            "authorization": token
+          }: undefined,
           body: formdata
         })
         if (response.ok) {
@@ -94,13 +97,15 @@ const Input = () => {
 
   const GenerateDiagram = async () => {
     SetStatusGen('Generating')
+    const token = localStorage.getItem('token')
+    console.log(token)
     try {
       const response = await fetch(`http://localhost:3000/api/v1/content/generate`, {
         method: "POST",
-        headers: {
+        headers: token? {
           "Content-Type": "application/json",
-          "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRpdjk5QGdtYWlsLmNvbSIsImlhdCI6MTc1OTc2MTMzNX0.4SxVLt3XsKH5o-DSPQTtJjCKnKo1DekfG5wcwnzcu7c"
-        },
+          "authorization": token
+        }: undefined,
         body: JSON.stringify({
           prompt: InputVal
         })
