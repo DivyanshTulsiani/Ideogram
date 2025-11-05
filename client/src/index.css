@@ -10,6 +10,16 @@
   src: url("../src/assets/Fonts/PlayfairDisplay-Italic-VariableFont_wght.ttf");
 }
 
+@font-face {
+  font-family: PlayFairDisplayVar;
+  src: url("../src/assets/Fonts/PlayfairDisplay-VariableFont_wght.ttf");
+}
+
+@theme{
+  --font-playfairvar: PlayFairDisplayVar,"sans-serif"; 
+}
+
+
 @theme{
   --font-playfair: PlayFairDisplay,"sans-serif"; 
 }
