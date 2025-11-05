@@ -1,5 +1,4 @@
 import RightArrow from '../../src/assets/right-arrow.png'
-import grid from '../assets/grid.png'
 
 const HeroIntro = () => {
   return (

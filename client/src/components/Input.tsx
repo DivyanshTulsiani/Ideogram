@@ -32,7 +32,7 @@ export const GenerateLoaderContextProvider = ({children} : GenerateLoaderContext
 
 const Input = () => {
 
-  const { initialNodes, initialEdges, SetinitialNodes, SetinitialEdges } = useFlowContext()
+  const { SetinitialNodes, SetinitialEdges } = useFlowContext()
 
   const context = useContext(GenerateLoaderContext)
 
@@ -40,7 +40,7 @@ const Input = () => {
     throw new Error("Input must be used within a GenerateLoaderContext")
   }
 
-  const {StatusGen, SetStatusGen} = context;
+  const {SetStatusGen} = context;
 
   const [InputVal, SetInputval] = useState<string>("");
   const [InputFile, SetInputFile] = useState<File | null>(null);
@@ -139,7 +139,7 @@ const Input = () => {
           <div>
             <input type="file" accept='application/pdf' onChange={FileChangeHandler} id='pdf-upload' className='hidden' />
             <label htmlFor='pdf-upload' className='flex mr-2 items-center justify-center gap-1 bg-white rounded-full shadow-sm p-1 hover:bg-blue-300 transition cursor-pointer duration-300 ease-in'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
 
@@ -149,7 +149,7 @@ const Input = () => {
 
           <input className='flex-grow bg-transparent outline-none text-sm placeholder-gray-500' onChange={PromptChangeHandler} value={InputVal} placeholder='Describe the Flowchart/Diagram...' />
           <button className='bg-blue-300 rounded-full p-1' onClick={GenerateDiagram}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
             </svg>
           </button>
@@ -165,7 +165,7 @@ const Input = () => {
           <div>
             <input type="file" accept='application/pdf' onChange={FileChangeHandler} id='pdf-upload' className='hidden' />
             <label htmlFor='pdf-upload' className='flex items-center justify-center gap-1 bg-white rounded-full shadow-sm p-1 hover:bg-blue-300 transition cursor-pointer duration-300 ease-in'>
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
               </svg>
 
@@ -175,7 +175,7 @@ const Input = () => {
 
           <input className='flex-grow bg-transparent outline-none text-sm placeholder-gray-500' onChange={PromptChangeHandler} value={InputVal} placeholder='Describe the Flowchart/Diagram...' />
           <button className='bg-blue-300 rounded-full p-1' onClick={GenerateDiagram}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-4">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
             </svg>
           </button>

@@ -1,5 +1,4 @@
 import NavbarLanding from "../components/NavbarLanding"
-import DecorativeSquares from "../components/DecorativeSquares"
 import Hero from "../components/Hero"
 import HeroImage from "../components/HeroImage"
 import Features from "../components/Features"

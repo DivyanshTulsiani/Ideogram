@@ -1,7 +1,5 @@
 import HeroIntro from './HeroIntro'
-import HeroImage from './HeroImage'
 import HeroButton from './HeroButton'
-import grid from '../assets/grid.png'
 import grid2 from '../assets/grid2.png'
 
 
