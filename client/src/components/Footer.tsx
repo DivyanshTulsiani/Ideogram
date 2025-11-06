@@ -1,3 +1,5 @@
+import GithubLogo from "../assets/github.png"
+import XLogo from "../assets/twitter.png"
 
 
 
@@ -17,12 +19,12 @@ const Footer = () => {
           Built by Divyansh Tulsiani
         </div>
         {/* Socials */}
-        <div className="flex justify-end items-center w-[33%]">
+        <div className="flex justify-end gap-4 items-center w-[33%]">
             <div>
-              <image/>
+              <img src={GithubLogo} className="w-[1.3rem] h-auto"/>
             </div>
             <div>
-
+              <img src={XLogo} className="w-[1.2rem] h-auto"/>
             </div>
         </div>
       </div >

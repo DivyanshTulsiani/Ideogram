@@ -5,6 +5,7 @@ type MyRefDivProps = React.RefObject<HTMLDivElement | null>
 
 interface NavbarLandingProps{
   TargetFeatures: MyRefDivProps
+  LandingFeatures: MyRefDivProps
 }
 
 
@@ -29,7 +30,7 @@ const NavbarLanding = (props: NavbarLandingProps) => {
             <div onClick={()=>props.TargetFeatures.current?.scrollIntoView({behavior: "smooth"})}>
               Feature
             </div>
-            <div>
+            <div onClick={()=>props.LandingFeatures.current?.scrollIntoView({behavior: "smooth"})}>
               Contact
             </div>
           </div>

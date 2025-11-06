@@ -18,7 +18,8 @@ import Footer from "../components/Footer"
 
 const Landing = () => {
   const TargetRefFeatures = useRef<HTMLDivElement>(null)
-  return (
+  const TargetRefContact = useRef<HTMLDivElement>(null)
+   return (
     <>
     <div  style={{
   position: 'relative',
@@ -29,7 +30,7 @@ const Landing = () => {
   className="fixed inset-0 -z-20 bg-[radial-gradient(circle_at_50%_1%,rgba(162,55,255,0.25)_0%,transparent_20%),radial-gradient(circle_at_10%_120%,rgba(76,85,255,0.25)_0%,transparent_40%),radial-gradient(circle_at_120%_120%,rgba(76,85,255,0.25)_0%,transparent_40%),linear-gradient(to_bottom,#f9fbff_0%,#ffffff_100%)] lg:bg-[radial-gradient(circle_at_50%_10%,rgba(162,55,255,0.25)_0%,transparent_30%),radial-gradient(circle_at_10%_90%,rgba(76,85,255,0.25)_0%,transparent_40%),radial-gradient(circle_at_100%_100%,rgba(76,85,255,0.25)_0%,transparent_40%),linear-gradient(to_bottom,#f9fbff_0%,#ffffff_100%)] "
 />
     <div>
-        <NavbarLanding TargetFeatures={TargetRefFeatures}/>
+        <NavbarLanding TargetFeatures={TargetRefFeatures} LandingFeatures={TargetRefContact}/>
 
         <div className="flex">
           {/* <DecorativeSquares /> */}
@@ -47,7 +48,10 @@ const Landing = () => {
 
 
       </div>
-        <Footer/>
+      <div ref={TargetRefContact}>
+      <Footer />
+      </div>
+        
 
 
       </div>
