@@ -7,6 +7,7 @@ import SaveIcon from "../assets/Save.svg?react"
 import SaveImageIcon from "../assets/SaveImage.svg?react"
 import ResponsivePhoneIcon from "../assets/ResposivePhone.svg?react"
 
+
 const Features = () => {
   return(
     <>

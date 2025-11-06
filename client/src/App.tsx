@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthPage from './pages/authpage';
 import Reactflow from './pages/reactflow'
 import Landing from './pages/landing';
+import LoginPage from './pages/loginpage';
 import { GenerateLoaderContextProvider } from './components/Input';
 import {
     type Node,
@@ -64,6 +65,7 @@ export default function App() {
                         <Route path="/auth" element={<AuthPage />} />
                         <Route path="/" element={<Landing />} />
                         <Route path="/flow" element={<Reactflow />} />
+                        <Route path='/login' element={<LoginPage/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

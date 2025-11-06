@@ -1,8 +1,14 @@
 import RightArrow from '../assets/right-arrow.png'
 import {Link} from 'react-router-dom'
 
+type MyRefDivProps = React.RefObject<HTMLDivElement | null>
 
-const NavbarLanding = () => {
+interface NavbarLandingProps{
+  TargetFeatures: MyRefDivProps
+}
+
+
+const NavbarLanding = (props: NavbarLandingProps) => {
   return (
     <>
       <div className="flex items-center justify-center mt-[0.8rem] fixed left-1/2 -translate-x-1/2 z-50 backdrop-blur-xl">
@@ -20,7 +26,7 @@ const NavbarLanding = () => {
             <div>
               Home
             </div>
-            <div>
+            <div onClick={()=>props.TargetFeatures.current?.scrollIntoView({behavior: "smooth"})}>
               Feature
             </div>
             <div>
