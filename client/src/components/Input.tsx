@@ -69,7 +69,7 @@ const Input = () => {
       const formdata = new FormData()
       formdata.append('file', InputFile)
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/content/uploadpdf`, {
+        const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/uploadpdf`, {
           method: "POST",
           headers: token? {
             "authorization": token
@@ -100,7 +100,7 @@ const Input = () => {
     const token = localStorage.getItem('token')
     console.log(token)
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/content/generate`, {
+      const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/generate`, {
         method: "POST",
         headers: token? {
           "Content-Type": "application/json",

@@ -25,7 +25,7 @@ const Sidebar = (props: SidebarProps) => {
     const fetchchat = async () => {
       const token = localStorage.getItem('token')
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/content/getchat`, {
+        const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/getchat`, {
           method: "POST",
           headers: token?{
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const Sidebar = (props: SidebarProps) => {
     const token = localStorage.getItem('token')
     try{
 
-      const response = await fetch(`http://localhost:3000/api/v1/content/getuserdata`, {
+      const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/getuserdata`, {
         method: "POST",
         headers: token?{
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ const Sidebar = (props: SidebarProps) => {
     const fetchuserdata = async () => {
       const token = localStorage.getItem('token')
       try{
-        const response = await fetch(`http://localhost:3000/api/v1/content/getuserdata`, {
+        const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/getuserdata`, {
           method: "POST",
           headers: token?{
             "Content-Type": "application/json",

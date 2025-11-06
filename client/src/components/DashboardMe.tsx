@@ -13,7 +13,7 @@ const Dashboard = () =>{
     const token = localStorage.getItem("token")
     const VerifyToken = async () => {
       try{
-        const response = await fetch(`http://localhost:3000/api/v1/users/me`,{
+        const response = await fetch(`https://ideogram-3.onrender.com/api/v1/users/me`,{
           method: "POST",
           headers: token? {"authorization": token} : undefined
         })

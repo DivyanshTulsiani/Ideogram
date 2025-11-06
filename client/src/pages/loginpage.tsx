@@ -17,7 +17,7 @@ export default function LoginPage() {
  
   const handleLogin = async () => {
     try{
-      const response = await fetch("http://localhost:3000/api/v1/users/signin",{
+      const response = await fetch("https://ideogram-3.onrender.com/api/v1/users/signin",{
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ export default function LoginPage() {
   const handlegooglogin = async (credentialResponse: any) => {
     if (credentialResponse.credential) {
       try {
-        const res = await fetch("http://localhost:3000/api/v1/users/auth/google", {
+        const res = await fetch("https://ideogram-3.onrender.com/api/v1/users/auth/google", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
