@@ -101,7 +101,7 @@ export default function AuthPage() {
 
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="h-screen w-full flex justify-center items-center">
       <div className="flex flex-col w-[20rem]">
         {/* Header */}
         <div className="font-playfairvar flex justify-center items-center text-4xl">
@@ -145,16 +145,16 @@ export default function AuthPage() {
           </div>
         </div>
         {/* Signinlogin */}
-        <div className="mt-[2rem] rounded-lg">
-          <button onClick={handleSignin}>
+        <div className="mt-[2rem] rounded-sm h-[2.5rem] text-white flex justify-center items-center bg-gradient-to-br from-blue-500 to-blue-600 hover:bg-blue-800 cursor-pointer font-inter font-light text-md">
+          <button onClick={handleSignin} className="flex justify-center items-center ">
           Signin
           </button>
           
         </div>
         {/* Google */}
 
-        <div className="bg-red-200 rounded-lg"> 
-        <GoogleLogin shape="rectangular" onSuccess={handlegooglogin} onError={() => console.log("Login Failed")}></GoogleLogin>
+        <div className="rounded-lg mt-[1rem]"> 
+        <GoogleLogin shape="rectangular" width={320} onSuccess={handlegooglogin} onError={() => console.log("Login Failed")}></GoogleLogin>
         </div>
         
       </div>
