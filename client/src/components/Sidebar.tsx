@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 // import { CommandMenu } from "cmdk";
 import { CommandMenu } from "./CommandMenu";
 import userimg from "../assets/DCD26D3F-9A29-4CF6-A8DC-BFF02BC43434.png"
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   SidebarOpen: boolean;
@@ -22,6 +23,7 @@ const Sidebar = (props: SidebarProps) => {
   const [UserData, SetUserData] = useState<SidebarUser | null>(null)
 
   useEffect(() => {
+
     const fetchchat = async () => {
       const token = localStorage.getItem('token')
       try {
@@ -106,12 +108,23 @@ const Sidebar = (props: SidebarProps) => {
     fetchuserdata()
   }, [])
 
+  const IsMd = useMedia("(min-width: 768px)")
+
+  useEffect(()=>{
+    if(!IsMd){
+      props.SetSidebar(false)
+    }
+  },[])
+
 
   //we can simply have a function that loads the saves node and edge array and then update it to change it but this will be executed after sometime
 
   const listchat = Chats.map(chat => <li key={chat._id} onClick={fetchuserdataa} className="hover:bg-[#efefef] px-2 flex items-center w-full max-w-[13.5rem] h-[2.5rem] rounded-lg overflow-hidden whitespace-nowrap text-ellipsis">{chat.prompt}</li>)
 
-  const IsMd = useMedia("(min-width: 768px)")
+
+  // if(!IsMd ){
+  //   props.SetSidebar(false)
+  // }
 
   console.log("IsMd:", IsMd);
 
@@ -133,9 +146,9 @@ const Sidebar = (props: SidebarProps) => {
         initial={{ width: props.SidebarOpen ? "16rem" : "3.5rem" }}
         animate={{ width: props.SidebarOpen ? "16rem" : "3.5rem" }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="bg-[#f7f7f7] h-screen border-r-1 border-gray-200 "
+        className="bg-[#f7f7f7] h-screen border-r-1 border-gray-200 relative z-5"
       >
-        {props.SidebarOpen ? (<div className="flex flex-col">
+        {props.SidebarOpen ? (<div className="flex flex-col absolute ">
           {/* this is top of sidebar */}
           <div className="flex justify-between px-5 py-2 items-center h-[3.5rem] border-b-1 border-gray-200">
             <div className="flex justify-center items-center gap-2">
@@ -146,9 +159,7 @@ const Sidebar = (props: SidebarProps) => {
                 Ideogram
               </div>
             </div>
-            <div>
-              j
-            </div>
+
           </div>
 
           {/* input comp */}
@@ -177,9 +188,12 @@ const Sidebar = (props: SidebarProps) => {
               <div className="font-gray-600 flex-none">
                 <svg width="17" height="17" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"></path> <path d="M15 18H9" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
               </div>
+              <Link to="/">
               <div className="text-md">
                 Home
               </div>
+              </Link>
+              
             </div>
 
             <div className="flex justify-left hover:bg-[#efefef] px-2 rounded-lg h-[2.3rem]  text-[#6f6e70] gap-3 items-center">
@@ -203,7 +217,7 @@ const Sidebar = (props: SidebarProps) => {
           </div>
 
           {/* this will be our chat/projects */}
-          <div className="flex flex-col px-3 py-4 h-[26.5rem] border-b-1 border-gray-200 overflow-y-auto ">
+          <div className="flex flex-col px-3 py-4 h-[21rem] lg:h-[21.5rem] xl:h-[26.5rem]   border-b-1 border-gray-200 overflow-y-auto ">
             <div className="text-[#6f6e70]">
               Chats
             </div>
@@ -230,7 +244,7 @@ const Sidebar = (props: SidebarProps) => {
 
         </div>) :
 
-          <div className="flex flex-col">
+          <div className="flex flex-col absolute left-1/2 -translate-x-1/2">
             <div className="flex justify-center items-center h-[3.5rem]">
               <div className="bg-[#515dfe] font-inter flex items-center justify-center w-8 h-8 text-[#f1f6ff] rounded-md">
                 Id
@@ -238,9 +252,12 @@ const Sidebar = (props: SidebarProps) => {
             </div>
 
             <div className="flex flex-col gap-3 items-center justify-center mt-4">
+            <Link to="/">
               <div className="hover:bg-[#efefef] p-2 rounded-md">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"></path> <path d="M15 18H9" stroke="#64748b" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
               </div>
+              </Link>
+
 
               <div className="hover:bg-[#efefef] p-2 rounded-md">
                 <svg width="17" height="17" viewBox="0 0 20 20" fill="#64748b" xmlns="http://www.w3.org/2000/svg" className="icon" aria-hidden="true"><path d="M2.6687 11.333V8.66699C2.6687 7.74455 2.66841 7.01205 2.71655 6.42285C2.76533 5.82612 2.86699 5.31731 3.10425 4.85156L3.25854 4.57617C3.64272 3.94975 4.19392 3.43995 4.85229 3.10449L5.02905 3.02149C5.44666 2.84233 5.90133 2.75849 6.42358 2.71582C7.01272 2.66769 7.74445 2.66797 8.66675 2.66797H9.16675C9.53393 2.66797 9.83165 2.96586 9.83179 3.33301C9.83179 3.70028 9.53402 3.99805 9.16675 3.99805H8.66675C7.7226 3.99805 7.05438 3.99834 6.53198 4.04102C6.14611 4.07254 5.87277 4.12568 5.65601 4.20313L5.45581 4.28906C5.01645 4.51293 4.64872 4.85345 4.39233 5.27149L4.28979 5.45508C4.16388 5.7022 4.08381 6.01663 4.04175 6.53125C3.99906 7.05373 3.99878 7.7226 3.99878 8.66699V11.333C3.99878 12.2774 3.99906 12.9463 4.04175 13.4688C4.08381 13.9833 4.16389 14.2978 4.28979 14.5449L4.39233 14.7285C4.64871 15.1465 5.01648 15.4871 5.45581 15.7109L5.65601 15.7969C5.87276 15.8743 6.14614 15.9265 6.53198 15.958C7.05439 16.0007 7.72256 16.002 8.66675 16.002H11.3337C12.2779 16.002 12.9461 16.0007 13.4685 15.958C13.9829 15.916 14.2976 15.8367 14.5447 15.7109L14.7292 15.6074C15.147 15.3511 15.4879 14.9841 15.7117 14.5449L15.7976 14.3447C15.8751 14.128 15.9272 13.8546 15.9587 13.4688C16.0014 12.9463 16.0017 12.2774 16.0017 11.333V10.833C16.0018 10.466 16.2997 10.1681 16.6667 10.168C17.0339 10.168 17.3316 10.4659 17.3318 10.833V11.333C17.3318 12.2555 17.3331 12.9879 17.2849 13.5771C17.2422 14.0993 17.1584 14.5541 16.9792 14.9717L16.8962 15.1484C16.5609 15.8066 16.0507 16.3571 15.4246 16.7412L15.1492 16.8955C14.6833 17.1329 14.1739 17.2354 13.5769 17.2842C12.9878 17.3323 12.256 17.332 11.3337 17.332H8.66675C7.74446 17.332 7.01271 17.3323 6.42358 17.2842C5.90135 17.2415 5.44665 17.1577 5.02905 16.9785L4.85229 16.8955C4.19396 16.5601 3.64271 16.0502 3.25854 15.4238L3.10425 15.1484C2.86697 14.6827 2.76534 14.1739 2.71655 13.5771C2.66841 12.9879 2.6687 12.2555 2.6687 11.333ZM13.4646 3.11328C14.4201 2.334 15.8288 2.38969 16.7195 3.28027L16.8865 3.46485C17.6141 4.35685 17.6143 5.64423 16.8865 6.53613L16.7195 6.7207L11.6726 11.7686C11.1373 12.3039 10.4624 12.6746 9.72827 12.8408L9.41089 12.8994L7.59351 13.1582C7.38637 13.1877 7.17701 13.1187 7.02905 12.9707C6.88112 12.8227 6.81199 12.6134 6.84155 12.4063L7.10132 10.5898L7.15991 10.2715C7.3262 9.53749 7.69692 8.86241 8.23218 8.32715L13.2791 3.28027L13.4646 3.11328ZM15.7791 4.2207C15.3753 3.81702 14.7366 3.79124 14.3035 4.14453L14.2195 4.2207L9.17261 9.26856C8.81541 9.62578 8.56774 10.0756 8.45679 10.5654L8.41772 10.7773L8.28296 11.7158L9.22241 11.582L9.43433 11.543C9.92426 11.432 10.3749 11.1844 10.7322 10.8271L15.7791 5.78027L15.8552 5.69629C16.185 5.29194 16.1852 4.708 15.8552 4.30371L15.7791 4.2207Z"></path></svg>
@@ -254,7 +271,7 @@ const Sidebar = (props: SidebarProps) => {
 
 
 
-            <div className="flex items-center justify-center gap-3 mt-[32rem]">
+            <div className="flex items-center justify-center gap-3 mt-[27rem] xl:mt-[32rem]">
               <div>
                 <img src={userimg} className="h-8 w-auto" />
               </div>

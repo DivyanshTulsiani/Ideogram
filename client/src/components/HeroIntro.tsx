@@ -32,7 +32,6 @@ const HeroIntro = () => {
         {/* Option access */}
         <div className='flex justify-center items-center'>
           <div>
-            <input/>
             <button></button>
           </div>
         </div>

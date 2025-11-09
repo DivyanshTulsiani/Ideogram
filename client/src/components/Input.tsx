@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent,useCallback, createContext, useContext } from 'react';
+import { useState, type ChangeEvent, createContext, useContext } from 'react';
 import { useFlowContext } from '../App';
 import { memo } from 'react';
 import FileUpload from './FileUpload';
@@ -61,7 +61,7 @@ const Input = () => {
   }
 
 
-  const UploadFile = useCallback(async () => {
+  const UploadFile = async () => {
     console.log(InputFile?.name) 
     if (InputFile && Status != 'uploading') {
       SetStatus('uploading')
@@ -92,7 +92,7 @@ const Input = () => {
       }
 
     }
-  },[InputFile,Status])
+  }
 
 
   const GenerateDiagram = async () => {
@@ -131,7 +131,7 @@ const Input = () => {
   return (
     <>
       {InputFile ? (
-        <div className='absolute left-1/2 top-9/10 -translate-x-1/2 -translate-y-9/10 items-center gap-2 rounded-2xl bg-[#f5f7fa] shadow-sm px-3 py-2 w-[95%] sm:w-[75%] md:w-[70%] lg:w-[50%] xl:w-[50%] mx-auto h-[6.5rem]'>
+        <div className='absolute left-1/2 top-9/10 -translate-x-4/10 sm:-translate-x-1/2 -translate-y-9/10 items-center gap-2 rounded-2xl bg-[#f5f7fa] shadow-sm px-3 py-2 w-[80%] sm:w-[75%] md:w-[70%] lg:w-[50%] xl:w-[50%] mx-auto h-[6.5rem]'>
           <div>
             <FileUpload File={InputFile} OnchangeFile={UploadFile} Status={Status}/>
           </div>
@@ -153,15 +153,15 @@ const Input = () => {
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
             </svg>
           </button>
-          {InputFile && Status !== 'uploading' && (
+          {/* {InputFile && Status !== 'uploading' && (
             <div>
               <button onClick={UploadFile}>Upload</button>
             </div>
-          )}
+          )} */}
 
         </div>
         </div>) :
-        <div className='absolute left-1/2 top-9/10 -translate-x-1/2 -translate-y-9/10 flex items-center gap-2 rounded-2xl bg-[#f5f7fa] z-index-2 shadow-sm px-3 py-2 w-[95%] sm:w-[75%] md:w-[70%] lg:w-[50%] xl:w-[50%] mx-auto h-[3.5rem]'>
+        <div className='absolute left-1/2 top-9/10 -translate-x-4/10 sm:-translate-x-1/2  -translate-y-9/10 flex items-center gap-2 rounded-2xl bg-[#f5f7fa] z-index-2 shadow-sm px-3 py-2 w-[80%] sm:w-[75%] md:w-[70%] lg:w-[50%] xl:w-[50%] mx-auto h-[3.5rem]'>
           <div>
             <input type="file" accept='application/pdf' onChange={FileChangeHandler} id='pdf-upload' className='hidden' />
             <label htmlFor='pdf-upload' className='flex items-center justify-center gap-1 bg-white rounded-full shadow-sm p-1 hover:bg-blue-300 transition cursor-pointer duration-300 ease-in'>
@@ -179,11 +179,11 @@ const Input = () => {
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
             </svg>
           </button>
-          {InputFile && Status !== 'uploading' && (
+          {/* {InputFile && Status !== 'uploading' && (
             <div>
               <button onClick={UploadFile}>Upload</button>
             </div>
-          )}
+          )} */}
 
         </div>
       }

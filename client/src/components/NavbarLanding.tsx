@@ -23,21 +23,23 @@ const NavbarLanding = (props: NavbarLandingProps) => {
             </div>
           </div>
 
-          <div className="hidden sm:flex justify-center items-center gap-12 w-[33%] font-inter text-sm ">
-            <div>
-              Home
+          <div className="hidden  sm:flex justify-center items-center gap-12 w-[33%] font-inter text-sm ">
+            <Link to="/login">
+            <div className='cursor-pointer hover:underline'>
+              Login
             </div>
-            <div onClick={()=>props.TargetFeatures.current?.scrollIntoView({behavior: "smooth"})}>
+            </Link>
+            <div className='hover:underline cursor-pointer' onClick={()=>props.TargetFeatures.current?.scrollIntoView({behavior: "smooth"})}>
               Feature
             </div>
-            <div onClick={()=>props.LandingFeatures.current?.scrollIntoView({behavior: "smooth"})}>
+            <div className='hover:underline cursor-pointer' onClick={()=>props.LandingFeatures.current?.scrollIntoView({behavior: "smooth"})}>
               Contact
             </div>
           </div>
 
           <div className="w-[33%] flex justify-end items-center font-inter text-sm gap-1">
           <Link to="/auth">
-            <button className='flex items-center justify-between px-2.5 gap-2 bg-[#0f1628] rounded-lg p-1 w-[6rem] lg:w-[6.5rem] h-[1.8rem] lg:h-[2rem] '>
+            <button className='flex items-center cursor-pointer hover:bg-[#020304] justify-between px-2.5 gap-2 bg-[#0f1628] rounded-lg p-1 w-[6rem] lg:w-[6.5rem] h-[1.8rem] lg:h-[2rem] '>
 
               <div className='text-white text-[0.8rem]'>
                 Sign up
