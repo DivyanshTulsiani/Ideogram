@@ -1,6 +1,6 @@
 import RightArrow from '../assets/right-arrow.png'
-import imgnb1 from "../assets/imgnb1.png"
-import imgnb2 from "../assets/imgnb2.png"
+// import imgnb1 from "../assets/imgnb1.png"
+// import imgnb2 from "../assets/imgnb2.png"
 import imch1 from "../assets/imch1.png"
 import {Link} from 'react-router-dom'
 
