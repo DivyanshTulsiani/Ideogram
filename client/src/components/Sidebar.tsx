@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 // import { CommandMenu } from "cmdk";
 import { CommandMenu } from "./CommandMenu";
 import userimg from "../assets/DCD26D3F-9A29-4CF6-A8DC-BFF02BC43434.png"
+import imgnb1 from "../assets/imgnb1.png"
+import imch1 from "../assets/imch1.png"
 import { Link } from "react-router-dom";
 
 interface SidebarProps {
@@ -152,9 +154,7 @@ const Sidebar = (props: SidebarProps) => {
           {/* this is top of sidebar */}
           <div className="flex justify-between px-5 py-2 items-center h-[3.5rem] border-b-1 border-gray-200">
             <div className="flex justify-center items-center gap-2">
-              <div className="bg-[#515dfe] font-inter flex items-center justify-center w-8 h-8 text-[#f1f6ff] rounded-md">
-                Id
-              </div>
+              <img src={imch1} className="h-6 w-auto"/>
               <div className="font-medium font-inter text-md">
                 Ideogram
               </div>
@@ -246,9 +246,7 @@ const Sidebar = (props: SidebarProps) => {
 
           <div className="flex flex-col absolute left-1/2 -translate-x-1/2">
             <div className="flex justify-center items-center h-[3.5rem]">
-              <div className="bg-[#515dfe] font-inter flex items-center justify-center w-8 h-8 text-[#f1f6ff] rounded-md">
-                Id
-              </div>
+            <img src={imch1} className="h-7 w-auto"/>
             </div>
 
             <div className="flex flex-col gap-3 items-center justify-center mt-4">
