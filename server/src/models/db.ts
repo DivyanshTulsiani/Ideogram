@@ -29,7 +29,9 @@ export const UserModel = model('users',User);
 const ContentPrompt = new Schema({
   prompt:{type: String},
   date:{type: String},
-  UserId: {type: ObjectId, ref: 'users', required: true}
+  UserId: {type: ObjectId, ref: 'users', required: true},
+  Nodes: {type: String},
+  Edges: {type: String}
 })
 
 export const ContentPromptModel =  model('contentprompt',ContentPrompt);

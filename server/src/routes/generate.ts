@@ -14,6 +14,14 @@ interface AuthRequestBody {
   password: string;
 }
 
+interface FastAPIResponse {
+  parsed: {
+    nodes: any[]; // Define the actual node structure if known
+    edges: any[]; // Define the actual edge structure if known
+  };
+  // Add other properties that FastAPI returns
+}
+
 const app = express()
 app.use(express.json())
 
@@ -145,6 +153,7 @@ router.post("/uploadpdf",authmiddleware,upload.single("file"),async (req: Reques
 
 
 router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
+  let newcontent;
   try{
     const email = req.user?.email;
     const user = await UserModel.findOne({
@@ -158,10 +167,11 @@ router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
     const userId = user?._id
     const prompt = req.body.prompt
 
+
     try{
       const currentdate = new Date()
       const stringdate = currentdate.toDateString()
-      await ContentPromptModel.create({
+        newcontent = await ContentPromptModel.create({
         UserId: userId,
         prompt: prompt,
         date: stringdate
@@ -183,12 +193,55 @@ router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
       })
     })
 
-    const resp = await fastapiresponse.json()
+    const resp = await fastapiresponse.json() as FastAPIResponse
+
+    if(!newcontent){
+      throw new Error()
+    }
+    const updated = await ContentPromptModel.findByIdAndUpdate(newcontent._id,{Nodes: resp.parsed.nodes,Edges: resp.parsed.edges},{new: true})
+
+
+
+
     res.status(200).json({
       message: "Diagram generated succesfully",
       Data: resp
     })
 
+  }
+  catch(e){
+
+  }
+})
+
+
+
+router.patch('/updatepromptdata',async (req: Request,res: Response) => {
+  const {node,edge,id} = req.body;
+
+  try{
+    const updated = await ContentPromptModel.findByIdAndUpdate(id,{Nodes: node,Edges: edge},{new: true})
+  }
+  catch(e){
+    res.status(500).json({message: "Error updating node and edges"})
+  }
+  
+
+  res.json({message: "Nodes and Edges added Succesfully"})
+})
+
+router.get('/getnodeedge',authmiddleware,async (req: Request,res: Response) => {
+  const id = req.body;
+
+  try{
+    const NodeEdge = await ContentPromptModel.findOne({_id: id})
+    if(!NodeEdge){
+
+    }
+    res.json({
+      Node: NodeEdge?.Nodes,
+      Edge: NodeEdge?.Edges
+    })
   }
   catch(e){
 

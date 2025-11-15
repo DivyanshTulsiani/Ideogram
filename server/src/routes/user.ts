@@ -36,7 +36,7 @@ router.post("/auth/google",async (req: Request<{},{},GoogleRequestBody>,res: Res
 
     if(!googleClientId){
       return res.status(404).json({
-        message: "Google client if is not defined"
+        message: "Google client id is not defined"
       })
     }
 
@@ -92,7 +92,7 @@ router.post("/auth/google",async (req: Request<{},{},GoogleRequestBody>,res: Res
 
   }
   catch(e){
-
+    console.log(e)
   }
 })
 
