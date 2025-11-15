@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import { useMedia } from "../hooks/useMedia";
 import { useEffect, useState } from "react";
+import { useFlowContext } from "../App";
 // import { CommandMenu } from "cmdk";
 import { CommandMenu } from "./CommandMenu";
 import userimg from "../assets/DCD26D3F-9A29-4CF6-A8DC-BFF02BC43434.png"
@@ -19,6 +20,8 @@ interface SidebarUser {
 }
 
 const Sidebar = (props: SidebarProps) => {
+
+  const { SetinitialNodes, SetinitialEdges } = useFlowContext()
 
   const [Chats, SetChats] = useState<Array<any>>([])
 
@@ -44,7 +47,7 @@ const Sidebar = (props: SidebarProps) => {
 
           SetChats(revlist)
 
-          console.log(data.chats)
+          // console.log(data.chats)
 
         }
       }
@@ -57,22 +60,27 @@ const Sidebar = (props: SidebarProps) => {
 
   //this function is for node and edge data the other one brings just the chats
   //currently not functional
-  const fetchuserdataa = async () => {
+  const fetchuserdataaNode = async (id: any) => {
+    // console.log("Fetch user data node called with id", id)
     const token = localStorage.getItem('token')
     try{
 
-      const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/getuserdata`, {
+      const response = await fetch(`https://ideogram-3.onrender.com/api/v1/content/getnodeedge`, {
         method: "POST",
         headers: token?{
           "Content-Type": "application/json",
           "authorization": token
-        }: undefined
+        }: undefined,
+        body: JSON.stringify({
+          id: id
+        })
       })
-  
+      // console.log("This reached after getnodeedge")
       if (response.ok) {
         const data = await response.json()
-  
-        SetUserData(data)
+        // console.log("Data",data)
+        SetinitialNodes(data.Node);
+        SetinitialEdges(data.Edge)
   
       }
     }
@@ -121,14 +129,14 @@ const Sidebar = (props: SidebarProps) => {
 
   //we can simply have a function that loads the saves node and edge array and then update it to change it but this will be executed after sometime
 
-  const listchat = Chats.map(chat => <li key={chat._id} onClick={fetchuserdataa} className="hover:bg-[#efefef] px-2 flex items-center w-full max-w-[13.5rem] h-[2.5rem] rounded-lg overflow-hidden whitespace-nowrap text-ellipsis">{chat.prompt}</li>)
+  const listchat = Chats.map(chat => <li key={chat._id} onClick={() => { fetchuserdataaNode(chat._id)}} className="hover:bg-[#efefef] px-2 flex items-center w-full max-w-[13.5rem] h-[2.5rem] rounded-lg overflow-hidden whitespace-nowrap text-ellipsis cursor-pointer">{chat.prompt}</li>)
 
 
   // if(!IsMd ){
   //   props.SetSidebar(false)
   // }
 
-  console.log("IsMd:", IsMd);
+  // console.log("IsMd:", IsMd);
 
   // useEffect(()=>{
   //   if(IsMd){

@@ -156,6 +156,7 @@ export default function AuthPage() {
         <div className="rounded-lg mt-[1rem]"> 
         <GoogleLogin shape="rectangular" width={320} onSuccess={handlegooglogin} onError={() => console.log("Login Failed")}></GoogleLogin>
         </div>
+
         
       </div>
     </div>

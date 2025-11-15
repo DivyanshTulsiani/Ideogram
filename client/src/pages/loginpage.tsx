@@ -1,5 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { useState, type ChangeEvent } from "react";
+import { Link } from "react-router-dom";
 
 export default function LoginPage() {
 
@@ -115,8 +116,16 @@ export default function LoginPage() {
         </div>
         {/* Google */}
 
+        {/* <div className="mt-[1rem] flex justify-center font-inter font-light gap-2">
+          Don't have an account? <span className="text-blue-500">Sign up</span>
+        </div> */}
+
         <div className="bg-red-200 rounded-lg mt-[1rem]"> 
         <GoogleLogin shape="rectangular" text="continue_with" onSuccess={handlegooglogin} onError={() => console.log("Login Failed")}></GoogleLogin>
+        </div>
+
+        <div className="mt-[1rem] flex justify-center font-inter font-light gap-2">
+          Don't have an account? <Link to="/auth"><span className="text-blue-500" >Sign up</span></Link>
         </div>
         
       </div>

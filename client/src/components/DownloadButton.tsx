@@ -1,5 +1,6 @@
 import { Panel, useReactFlow, getNodesBounds, getViewportForBounds } from '@xyflow/react';
 import { toPng } from 'html-to-image';
+import Download from "../assets/download.png"
 
 function downloadImage(dataUrl : string) {
   const a = document.createElement('a');
@@ -42,8 +43,8 @@ function DownloadButton() {
 
   return (
 
-      <button className="bg-blue-500 z-100 absolute top-3/10" onClick={onClick}>
-        Download Image
+      <button className="absolute cursor-pointer" onClick={onClick}>
+        <img src={Download} className='h-5 w-auto'/>
       </button>
 
   );
