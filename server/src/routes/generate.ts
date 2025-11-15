@@ -248,10 +248,12 @@ router.patch('/updatepromptdata',async (req: Request,res: Response) => {
 })
 
 router.post('/getnodeedge',authmiddleware,async (req: Request,res: Response) => {
-  const id = req.body;
+  const id = req.body.id;
+  // console.log("id", id)
 
   try{
     const NodeEdge = await ContentPromptModel.findOne({_id: id})
+    console.log(NodeEdge?.Nodes)
     if(!NodeEdge){
 
     }
@@ -261,7 +263,7 @@ router.post('/getnodeedge',authmiddleware,async (req: Request,res: Response) => 
     })
   }
   catch(e){
-
+    return console.log("Error", e)
   }
 })
 
