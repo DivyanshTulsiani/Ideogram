@@ -18,7 +18,8 @@ interface FastAPIResponse {
   parsed: {
     nodes: any[]; // Define the actual node structure if known
     edges: any[]; // Define the actual edge structure if known
-  };
+  },
+  retrieved_context: any
   // Add other properties that FastAPI returns
 }
 
@@ -178,7 +179,7 @@ router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
       })
     }
     catch(e){
-      res.status(400).json({
+      return res.status(400).json({
         Error: e
       })
     }
@@ -192,14 +193,30 @@ router.post("/generate",authmiddleware,async (req: Request,res: Response) =>{
         prompt: prompt
       })
     })
-
+    console.log("reached generation");
+    
     const resp = await fastapiresponse.json() as FastAPIResponse
 
-    if(!newcontent){
-      throw new Error()
+    if(!resp){
+      console.log("error")
     }
-    const updated = await ContentPromptModel.findByIdAndUpdate(newcontent._id,{Nodes: resp.parsed.nodes,Edges: resp.parsed.edges},{new: true})
+    if(!newcontent){
+      throw new Error("newcontent not found")
+    }
 
+    if (!resp.parsed || !resp.parsed.nodes || !resp.parsed.edges) {
+      console.error('Invalid response structure:', resp);
+      return res.status(500).json({
+        Error: "Invalid FastAPI response structure",
+        received: resp
+      });
+    }
+    try{
+    const updated = await ContentPromptModel.findByIdAndUpdate(newcontent._id,{Nodes: resp.parsed.nodes,Edges: resp.parsed.edges},{new: true})
+    }
+    catch(e){
+      console.log(e)
+    }
 
 
 

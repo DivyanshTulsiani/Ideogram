@@ -30,8 +30,8 @@ const ContentPrompt = new Schema({
   prompt:{type: String},
   date:{type: String},
   UserId: {type: ObjectId, ref: 'users', required: true},
-  Nodes: {type: String},
-  Edges: {type: String}
+  Nodes: {type: Schema.Types.Mixed, default: []},
+  Edges: {type: Schema.Types.Mixed, default: []}
 })
 
 export const ContentPromptModel =  model('contentprompt',ContentPrompt);
