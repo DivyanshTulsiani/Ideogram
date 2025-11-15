@@ -3,6 +3,7 @@ import Input from '../components/Input';
 import { GenerateLoader } from '../components/GenerateLoader';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+// import DownloadButton from '../components/DownloadButton';
 // import 'tailwind.css';
 // import '.../tailwind.config.ts'
 import {
@@ -160,6 +161,7 @@ const Flow = () => {
           horizontal layout
         </button>
       </Panel>
+      {/* <DownloadButton/> */}
 
     <Panel position="top-right">
         <select
