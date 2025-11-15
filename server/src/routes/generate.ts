@@ -247,7 +247,7 @@ router.patch('/updatepromptdata',async (req: Request,res: Response) => {
   res.json({message: "Nodes and Edges added Succesfully"})
 })
 
-router.get('/getnodeedge',authmiddleware,async (req: Request,res: Response) => {
+router.post('/getnodeedge',authmiddleware,async (req: Request,res: Response) => {
   const id = req.body;
 
   try{
