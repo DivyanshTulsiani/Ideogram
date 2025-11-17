@@ -151,6 +151,18 @@ body {
   height: 10rem;
 }
 
+.horver {
+  padding: 15px 10px;
+  font-size: 12px;
+  background: #f5f7fa;
+  border-radius: 1rem;
+  width: 3rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: #1a192b;
+}
+
 .dndflow aside .description {
   margin-bottom: 10px;
 }

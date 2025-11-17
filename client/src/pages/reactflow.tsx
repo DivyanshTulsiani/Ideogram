@@ -153,13 +153,16 @@ const Flow = () => {
       colorMode={colorMode}
       fitView
     >
-      <Panel position="top-right">
-        <button className="xy-theme__button" onClick={() => onLayout('TB')}>
-          vertical layout
+      <Panel position="center-right">
+        <div  className='horver'>
+        <button className="mb-2 font-inter border border-black rounded-lg hover:bg-gray-300" onClick={() => onLayout('TB')}>
+          V
         </button>
-        <button className="xy-theme__button" onClick={() => onLayout('LR')}>
-          horizontal layout
+        <button className="font-inter border border-black rounded-lg hover:bg-gray-300" onClick={() => onLayout('LR')}>
+          H
         </button>
+        </div>
+
       </Panel>
       {/* <DownloadButton/> */}
 
